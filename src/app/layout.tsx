@@ -4,7 +4,6 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
-import IntroVideo from "@/components/IntroVideo";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -67,7 +66,6 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
         <AuthProvider>
-          <IntroVideo />
           <a href="#main-content" className="skip-link">Skip to main content</a>
           <Navigation />
           <main id="main-content" className="flex-1 pt-[72px]">{children}</main>
