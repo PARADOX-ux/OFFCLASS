@@ -69,6 +69,35 @@ export default function ToolsPage() {
         </div>
       </section>
 
+      {/* NEW: AI Tool Banner */}
+      <section className="bg-white border-b border-gray-200">
+        <div className="container mx-auto max-w-[1320px] px-6 py-8">
+          <RevealSection delay={0.1}>
+            <div className="bg-[var(--color-ink)] text-white rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--color-tech)] opacity-[0.15] blur-[100px] rounded-full pointer-events-none" />
+              <div className="relative z-10 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[rgba(255,255,255,0.1)] rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                  <span className="text-[var(--color-tech)]">New</span>
+                  <span className="text-gray-400">•</span>
+                  <span>Google AI</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-display)] mb-4">
+                  Cold Email Roaster 🔥
+                </h2>
+                <p className="text-gray-300 text-[0.9rem] leading-relaxed mb-0">
+                  Paste your cold email or internship outreach message. Our Google AI-powered mentor will brutally roast your mistakes and rewrite it into a highly convertible message.
+                </p>
+              </div>
+              <div className="relative z-10 w-full md:w-auto">
+                <Link href="/tools/roast-my-email" className="w-full md:w-auto px-8 py-4 bg-[var(--color-money)] text-[var(--color-ink)] font-bold rounded-xl hover:bg-[#a3df3d] transition-colors flex items-center justify-center gap-2">
+                  Try it Now
+                </Link>
+              </div>
+            </div>
+          </RevealSection>
+        </div>
+      </section>
+
       {/* Tool Directory */}
       <section className="py-10 bg-[var(--color-surface)]">
         <div className="container mx-auto max-w-[1320px] px-6">
