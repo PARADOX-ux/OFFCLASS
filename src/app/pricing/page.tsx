@@ -39,18 +39,18 @@ export default function PricingPage() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16">
           
           {/* Free Tier */}
           <RevealSection delay={0.1}>
             <div className="bg-white border border-[var(--color-border)] rounded-3xl p-8 flex flex-col h-full hover:shadow-sm transition-shadow">
               <div className="mb-8">
                 <h3 className="text-2xl font-bold font-[var(--font-display)] mb-2">Basic</h3>
-                <p className="text-[var(--color-muted)] text-[0.9rem]">Everything you need to get started.</p>
+                <p className="text-[var(--color-muted)] text-[0.85rem]">Everything you need to get started.</p>
               </div>
               <div className="mb-8">
-                <span className="text-5xl font-bold font-[var(--font-display)] tracking-tight">₹0</span>
-                <span className="text-[var(--color-muted)]">/forever</span>
+                <span className="text-4xl font-bold font-[var(--font-display)] tracking-tight">₹0</span>
+                <span className="text-[var(--color-muted)] text-sm">/forever</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -59,8 +59,8 @@ export default function PricingPage() {
                   'Save up to 10 opportunities',
                   'Basic community access',
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-center text-[0.9rem] text-[var(--color-ink)]">
-                    <CheckCircle2 size={18} className="text-[var(--color-muted)] mr-3 flex-shrink-0" />
+                  <li key={i} className="flex items-start text-[0.85rem] text-[var(--color-ink)] leading-snug">
+                    <CheckCircle2 size={16} className="text-[var(--color-muted)] mr-3 mt-0.5 flex-shrink-0" />
                     {feature}
                   </li>
                 ))}
@@ -71,46 +71,86 @@ export default function PricingPage() {
             </div>
           </RevealSection>
 
-          {/* Premium Tier */}
+          {/* Plus Tier */}
           <RevealSection delay={0.2}>
-            <div className="bg-[var(--color-ink)] text-white border border-gray-800 rounded-3xl p-8 flex flex-col h-full relative overflow-hidden">
+            <div className="bg-[var(--color-ink)] text-white border border-gray-800 rounded-3xl p-8 flex flex-col h-full relative overflow-hidden transform md:-translate-y-4 shadow-xl">
               <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--color-money)] opacity-[0.1] blur-[80px] rounded-full pointer-events-none" />
-              <div className="absolute top-6 right-6">
-                <Zap size={24} className="text-[var(--color-money)]" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[var(--color-money)] text-[var(--color-ink)] text-[0.65rem] font-bold uppercase tracking-widest py-1 px-4 rounded-b-xl">
+                Most Popular
               </div>
 
-              <div className="mb-8 relative z-10">
-                <h3 className="text-2xl font-bold font-[var(--font-display)] mb-2 text-white">OFFCLASS+</h3>
-                <p className="text-gray-400 text-[0.9rem]">For students serious about their growth.</p>
+              <div className="mb-8 relative z-10 mt-4">
+                <h3 className="text-2xl font-bold font-[var(--font-display)] mb-2 text-white flex items-center gap-2">
+                  OFFCLASS+
+                  <Zap size={18} className="text-[var(--color-money)]" />
+                </h3>
+                <p className="text-gray-400 text-[0.85rem]">For students serious about their growth.</p>
               </div>
               <div className="mb-8 relative z-10">
-                <div className="flex items-end gap-2">
-                  <span className="text-5xl font-bold font-[var(--font-display)] tracking-tight text-white">
+                <div className="flex items-end gap-1">
+                  <span className="text-4xl font-bold font-[var(--font-display)] tracking-tight text-white">
                     ₹{isAnnual ? '99' : '149'}
                   </span>
-                  <span className="text-gray-400 mb-1">/month</span>
+                  <span className="text-gray-400 text-sm mb-1">/month</span>
                 </div>
                 {isAnnual && (
-                  <p className="text-[var(--color-money)] text-[0.8rem] mt-2 font-bold tracking-wide uppercase">Billed ₹1,188 yearly</p>
+                  <p className="text-[var(--color-money)] text-[0.75rem] mt-2 font-bold tracking-wide uppercase">Billed ₹1,188 yearly</p>
                 )}
               </div>
               <ul className="space-y-4 mb-8 flex-1 relative z-10">
                 {[
                   'Unlimited access to all Premium Creator Courses',
-                  'Direct messaging with verified mentors',
                   'Save unlimited opportunities',
                   'Early access to exclusive internships',
                   'Verified OFFCLASS+ profile badge',
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-center text-[0.9rem] text-gray-200">
-                    <CheckCircle2 size={18} className="text-[var(--color-money)] mr-3 flex-shrink-0" />
+                  <li key={i} className="flex items-start text-[0.85rem] text-gray-200 leading-snug">
+                    <CheckCircle2 size={16} className="text-[var(--color-money)] mr-3 mt-0.5 flex-shrink-0" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <button className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-money)] text-[var(--color-ink)] hover:bg-[#a3df3d] transition-colors flex items-center justify-center gap-2 relative z-10">
-                Subscribe Now
+                Subscribe Plus
                 <ArrowRight size={16} />
+              </button>
+            </div>
+          </RevealSection>
+
+          {/* Pro Tier */}
+          <RevealSection delay={0.3}>
+            <div className="bg-white border border-[var(--color-border)] rounded-3xl p-8 flex flex-col h-full hover:shadow-sm transition-shadow">
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold font-[var(--font-display)] mb-2 text-[var(--color-tech)]">OFFCLASS Pro</h3>
+                <p className="text-[var(--color-muted)] text-[0.85rem]">1-on-1 mentorship and ultimate access.</p>
+              </div>
+              <div className="mb-8">
+                <div className="flex items-end gap-1">
+                  <span className="text-4xl font-bold font-[var(--font-display)] tracking-tight text-[var(--color-ink)]">
+                    ₹{isAnnual ? '299' : '399'}
+                  </span>
+                  <span className="text-[var(--color-muted)] text-sm mb-1">/month</span>
+                </div>
+                {isAnnual && (
+                  <p className="text-[var(--color-tech)] text-[0.75rem] mt-2 font-bold tracking-wide uppercase">Billed ₹3,588 yearly</p>
+                )}
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                {[
+                  'Everything in OFFCLASS+',
+                  '1-on-1 monthly mentorship call',
+                  'Professional resume & portfolio review',
+                  'Direct messaging with creators',
+                  'Private Pro Discord channel',
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start text-[0.85rem] text-[var(--color-ink)] leading-snug">
+                    <CheckCircle2 size={16} className="text-[var(--color-tech)] mr-3 mt-0.5 flex-shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <button className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[rgba(49,87,213,0.1)] text-[var(--color-tech)] hover:bg-[rgba(49,87,213,0.15)] transition-colors flex items-center justify-center gap-2">
+                Subscribe Pro
               </button>
             </div>
           </RevealSection>
