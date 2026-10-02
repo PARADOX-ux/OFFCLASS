@@ -428,6 +428,41 @@ export default function MoneyPage() {
         </div>
       </section>
 
+      {/* Featured Course */}
+      <section className="py-8 bg-[var(--color-surface)] border-b border-[var(--color-border)]">
+        <div className="container mx-auto max-w-[1320px] px-6">
+          <RevealSection delay={0.2}>
+            <Link href="/courses/investing-101" className="block group">
+              <div className="bg-[var(--color-offwhite-dark)] rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between border border-[var(--color-border)] hover:border-[var(--color-money)] hover:shadow-sm transition-all">
+                <div className="flex items-center gap-5">
+                  <div className="w-16 h-16 rounded-xl bg-[var(--color-money)] text-[var(--color-ink)] flex items-center justify-center flex-shrink-0">
+                    <BookOpen size={28} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[0.65rem] font-bold tracking-wider text-[var(--color-tech)] bg-[rgba(49,87,213,0.1)] px-2 py-0.5 rounded-full uppercase">
+                        Featured Course
+                      </span>
+                      <span className="text-[0.75rem] text-[var(--color-muted)]">45 mins</span>
+                    </div>
+                    <h3 className="font-bold text-[1.1rem] font-[var(--font-display)] text-[var(--color-ink)] group-hover:text-[var(--color-money)] transition-colors">
+                      The Blueprint to Modern Investing
+                    </h3>
+                    <p className="text-[0.85rem] text-[var(--color-muted)] mt-1">
+                      Learn the fundamentals of building wealth. From index funds to basic strategies.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 md:mt-0 flex items-center text-[0.85rem] font-bold text-[var(--color-ink)] group-hover:text-[var(--color-money)] transition-colors">
+                  Start Learning
+                  <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+          </RevealSection>
+        </div>
+      </section>
+
       {/* Earning Pathways */}
       <section className="section bg-[var(--color-surface)]">
         <div className="container mx-auto max-w-[1320px] px-6">
