@@ -8,6 +8,7 @@ const footerLinks = {
     { label: 'Career', href: '/career' },
     { label: 'Campus', href: '/campus' },
     { label: 'Life', href: '/life' },
+    { label: 'Pricing', href: '/pricing' },
   ],
   resources: [
     { label: 'Opportunities', href: '/opportunities' },

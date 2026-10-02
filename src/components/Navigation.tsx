@@ -19,6 +19,7 @@ const mainNav = [
 const secondaryNav = [
   { label: 'Opportunities', href: '/opportunities' },
   { label: 'Tools', href: '/tools' },
+  { label: 'Pricing', href: '/pricing' },
 ];
 
 export default function Navigation() {
