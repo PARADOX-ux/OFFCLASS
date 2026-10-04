@@ -17,10 +17,10 @@ export default function NotFound() {
         </div>
         
         <h1 className="text-3xl md:text-4xl font-bold font-[var(--font-display)] mb-4">
-          This page doesn't exist.
+          This page doesn&apos;t exist.
         </h1>
         <p className="text-[var(--color-muted)] text-lg mb-10 max-w-md mx-auto">
-          The link you followed might be broken, or the page may have been moved. Let's get you back on track.
+          The link you followed might be broken, or the page may have been moved. Let&apos;s get you back on track.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

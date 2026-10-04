@@ -81,13 +81,13 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
             <div className="mt-12 prose prose-lg prose-headings:font-display prose-headings:font-bold prose-a:text-[var(--color-tech)] max-w-none">
               <h2>The Power of Compound Interest</h2>
               <p>
-                Albert Einstein supposedly called compound interest the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it.
+                Albert Einstein supposedly called compound interest the eighth wonder of the world. He who understands it, earns it; he who doesn&apos;t, pays it.
               </p>
               <p>
                 When you invest your money, you earn interest on your principal. But more importantly, the next year, you earn interest on both your principal <strong>and the interest you previously earned</strong>. Over a span of 20 or 30 years, this creates an exponential growth curve that is the secret behind nearly every self-made millionaire.
               </p>
               <blockquote>
-                "The stock market is a device for transferring money from the impatient to the patient." — Warren Buffett
+                &quot;The stock market is a device for transferring money from the impatient to the patient.&quot; — Warren Buffett
               </blockquote>
             </div>
           </div>

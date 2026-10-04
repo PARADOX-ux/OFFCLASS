@@ -37,7 +37,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {/* Article Content */}
         <article className="prose prose-lg max-w-none prose-headings:font-[var(--font-display)] prose-a:text-[var(--color-tech)]">
           <p className="lead text-xl text-[var(--color-muted)] mb-8">
-            The biggest lie you've been told is that you need a degree or years of experience to get an internship. You don't. You need proof of work.
+            The biggest lie you&apos;ve been told is that you need a degree or years of experience to get an internship. You don&apos;t. You need proof of work.
           </p>
           
           <h2 className="text-2xl font-bold mt-10 mb-4">1. Stop applying, start building</h2>
@@ -49,20 +49,20 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <strong>Pro Tip:</strong> Build something related to the company you want to work for. If you want to work at Notion, build a Notion template or extension.
           </div>
 
-          <h2 className="text-2xl font-bold mt-10 mb-4">2. The "Cold Email" Strategy</h2>
+          <h2 className="text-2xl font-bold mt-10 mb-4">2. The &quot;Cold Email&quot; Strategy</h2>
           <p className="mb-6 text-[var(--color-ink)] leading-relaxed">
-            Find the startup founder or hiring manager on LinkedIn or Twitter. Send them a short, 3-sentence email. Don't ask for a job. Show them what you built.
+            Find the startup founder or hiring manager on LinkedIn or Twitter. Send them a short, 3-sentence email. Don&apos;t ask for a job. Show them what you built.
           </p>
           <pre className="bg-[var(--color-ink)] text-white p-6 rounded-xl overflow-x-auto text-sm mb-8">
             Hi [Name],{'\n\n'}
-            I'm a student learning React. I love [Company Name], so I spent this weekend building [Tool Name] using your API.{'\n\n'}
+            I&apos;m a student learning React. I love [Company Name], so I spent this weekend building [Tool Name] using your API.{'\n\n'}
             Here is the link: [Link].{'\n\n'}
             Would love any feedback if you have a minute!
           </pre>
 
           <h2 className="text-2xl font-bold mt-10 mb-4">3. Follow up (The Fortune is in the Follow-up)</h2>
           <p className="mb-6 text-[var(--color-ink)] leading-relaxed">
-            People are busy. If they don't reply in 4 days, reply to your own email with: "Hey [Name], just bumping this in case it got buried!" 50% of the time, this is the email they reply to.
+            People are busy. If they don&apos;t reply in 4 days, reply to your own email with: &quot;Hey [Name], just bumping this in case it got buried!&quot; 50% of the time, this is the email they reply to.
           </p>
         </article>
 
