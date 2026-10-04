@@ -97,30 +97,36 @@ export default function OpportunitiesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((opp, i) => (
               <RevealSection key={opp.id} delay={i * 0.04}>
-                <div className="card h-full flex flex-col">
+                <div className="card h-full flex flex-col relative group hover:border-[var(--color-tech)] transition-colors cursor-pointer">
+                  {/* Invisible link overlay covering the entire card */}
+                  <a href={opp.link} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-0" aria-label={`View ${opp.title}`} />
+                  
                   {/* Header */}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-3 relative z-10 pointer-events-none">
                     <div className="flex items-center gap-2">
                       <span className="pill pill-default text-[0.7rem] py-0.5 px-2">
                         {opp.type.replace('_', ' ')}
                       </span>
                     </div>
-                    <SaveButton itemId={opp.id} itemType="opportunity" />
+                    {/* Ensure save button can be clicked over the link overlay */}
+                    <div className="pointer-events-auto">
+                      <SaveButton itemId={opp.id} itemType="opportunity" />
+                    </div>
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-[1.05rem] font-bold font-[var(--font-display)] mb-1">
+                  <h3 className="text-[1.05rem] font-bold font-[var(--font-display)] mb-1 relative z-10 group-hover:text-[var(--color-tech)] transition-colors">
                     {opp.title}
                   </h3>
-                  <p className="text-[0.8rem] text-[var(--color-tech)] font-medium mb-2">
+                  <p className="text-[0.8rem] text-[var(--color-tech)] font-medium mb-2 relative z-10">
                     {opp.organization}
                   </p>
-                  <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed mb-4 flex-1">
+                  <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed mb-4 flex-1 relative z-10">
                     {opp.summary}
                   </p>
 
                   {/* Details */}
-                  <div className="space-y-2 text-[0.8rem] text-[var(--color-muted)] mb-4">
+                  <div className="space-y-2 text-[0.8rem] text-[var(--color-muted)] mb-4 relative z-10">
                     <div className="flex items-center gap-2">
                       <MapPin size={13} /> {opp.location}
                       {opp.remote && <span className="pill pill-tech text-[0.65rem] py-0 px-1.5">Remote</span>}
@@ -138,16 +144,16 @@ export default function OpportunitiesPage() {
                   </div>
 
                   {/* Eligibility */}
-                  <p className="text-[0.75rem] text-[var(--color-muted)] mb-4">
+                  <p className="text-[0.75rem] text-[var(--color-muted)] mb-4 relative z-10">
                     Eligibility: {opp.eligibility}
                   </p>
 
                   {/* Action */}
-                  <div className="mt-auto pt-4">
-                    <a href={opp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[0.85rem] font-bold text-[var(--color-tech)] hover:text-[var(--color-ink)] transition-colors">
+                  <div className="mt-auto pt-4 relative z-10">
+                    <span className="inline-flex items-center gap-2 text-[0.85rem] font-bold text-[var(--color-tech)] group-hover:text-[var(--color-ink)] transition-colors pointer-events-none">
                       <ExternalLink size={14} />
                       <span>View & Apply</span>
-                    </a>
+                    </span>
                   </div>
                 </div>
               </RevealSection>
