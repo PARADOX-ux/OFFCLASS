@@ -2,11 +2,22 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Zap, ArrowRight, ShieldAlert } from 'lucide-react';
+import { CheckCircle2, Zap, ArrowRight, ShieldAlert, Loader2 } from 'lucide-react';
 import RevealSection from '@/components/RevealSection';
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [processingState, setProcessingState] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  const handleSubscribe = () => {
+    setProcessingState('loading');
+    // Simulate Razorpay popup delay
+    setTimeout(() => {
+      setProcessingState('success');
+      // Reset after showing success
+      setTimeout(() => setProcessingState('idle'), 3000);
+    }, 2000);
+  };
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] pt-32 pb-20">
@@ -110,9 +121,18 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-money)] text-[var(--color-ink)] hover:bg-[#a3df3d] transition-colors flex items-center justify-center gap-2 relative z-10">
-                Subscribe Plus
-                <ArrowRight size={16} />
+              <button 
+                onClick={handleSubscribe}
+                disabled={processingState === 'loading'}
+                className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-money)] text-[var(--color-ink)] hover:bg-[#a3df3d] transition-colors flex items-center justify-center gap-2 relative z-10 disabled:opacity-80"
+              >
+                {processingState === 'loading' ? (
+                  <><Loader2 size={16} className="animate-spin" /> Processing...</>
+                ) : processingState === 'success' ? (
+                  <><CheckCircle2 size={16} /> Subscribed!</>
+                ) : (
+                  <>Subscribe Plus <ArrowRight size={16} /></>
+                )}
               </button>
             </div>
           </RevealSection>
@@ -149,8 +169,18 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[rgba(49,87,213,0.1)] text-[var(--color-tech)] hover:bg-[rgba(49,87,213,0.15)] transition-colors flex items-center justify-center gap-2">
-                Subscribe Pro
+              <button 
+                onClick={handleSubscribe}
+                disabled={processingState === 'loading'}
+                className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[rgba(49,87,213,0.1)] text-[var(--color-tech)] hover:bg-[rgba(49,87,213,0.15)] transition-colors flex items-center justify-center gap-2 disabled:opacity-80"
+              >
+                {processingState === 'loading' ? (
+                  <><Loader2 size={16} className="animate-spin" /> Processing...</>
+                ) : processingState === 'success' ? (
+                  <><CheckCircle2 size={16} /> Subscribed!</>
+                ) : (
+                  <>Subscribe Pro</>
+                )}
               </button>
             </div>
           </RevealSection>
