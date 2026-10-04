@@ -37,12 +37,6 @@ export default function OpportunitiesPage() {
               Browse internships, freelancing gigs, competitions, scholarships, hackathons,
               and more. Filter by type, location, and keyword.
             </p>
-            <div className="flex items-center gap-3 p-3 bg-[rgba(234,179,8,0.08)] rounded-[var(--radius-md)] max-w-fit">
-              <span className="badge badge-demo">Demo Data</span>
-              <p className="text-[0.8rem] text-[#b45309]">
-                These are sample listings for design purposes. Real opportunities will be connected soon.
-              </p>
-            </div>
           </RevealSection>
         </div>
       </section>
@@ -110,7 +104,6 @@ export default function OpportunitiesPage() {
                       <span className="pill pill-default text-[0.7rem] py-0.5 px-2">
                         {opp.type.replace('_', ' ')}
                       </span>
-                      <span className="badge badge-demo">Demo</span>
                     </div>
                     <SaveButton itemId={opp.id} itemType="opportunity" />
                   </div>
@@ -149,10 +142,12 @@ export default function OpportunitiesPage() {
                     Eligibility: {opp.eligibility}
                   </p>
 
-                  {/* Action — disabled since demo */}
-                  <div className="flex items-center gap-2 text-[0.85rem] font-semibold text-[var(--color-muted)]">
-                    <ExternalLink size={14} />
-                    <span>Link available when live</span>
+                  {/* Action */}
+                  <div className="mt-auto pt-4">
+                    <a href={opp.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[0.85rem] font-bold text-[var(--color-tech)] hover:text-[var(--color-ink)] transition-colors">
+                      <ExternalLink size={14} />
+                      <span>View & Apply</span>
+                    </a>
                   </div>
                 </div>
               </RevealSection>
@@ -176,12 +171,8 @@ export default function OpportunitiesPage() {
           {/* Architecture note */}
           <RevealSection delay={0.2}>
             <div className="mt-12 p-5 bg-[var(--color-offwhite)] rounded-[var(--radius-lg)] border border-[var(--color-border)]">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="badge badge-coming-soon">Architecture Ready</span>
-              </div>
               <p className="text-[0.85rem] text-[var(--color-muted)]">
-                This page is architected to support real opportunity data through APIs, partner submissions,
-                admin CMS, or manual database entries. Saving opportunities will require authentication in a future update.
+                More opportunities are added weekly. Saving opportunities will require an account in a future update.
               </p>
             </div>
           </RevealSection>
