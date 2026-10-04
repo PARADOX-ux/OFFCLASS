@@ -98,8 +98,8 @@ export default function OpportunitiesPage() {
             {filtered.map((opp, i) => (
               <RevealSection key={opp.id} delay={i * 0.04}>
                 <div className="card h-full flex flex-col relative group hover:border-[var(--color-tech)] transition-colors cursor-pointer">
-                  {/* Invisible link overlay covering the entire card */}
-                  <a href={opp.link} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-0" aria-label={`View ${opp.title}`} />
+                  {/* Invisible link overlay covering the entire card (z-20 to sit above text) */}
+                  <a href={opp.link} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-20" aria-label={`View ${opp.title}`} />
                   
                   {/* Header */}
                   <div className="flex items-center justify-between mb-3 relative z-10 pointer-events-none">
@@ -109,7 +109,7 @@ export default function OpportunitiesPage() {
                       </span>
                     </div>
                     {/* Ensure save button can be clicked over the link overlay */}
-                    <div className="pointer-events-auto">
+                    <div className="pointer-events-auto relative z-30">
                       <SaveButton itemId={opp.id} itemType="opportunity" />
                     </div>
                   </div>
