@@ -130,6 +130,20 @@ body {
   border-radius: 4px;
 }
 
+/* Dark Mode Overrides */
+html.dark {
+  --color-ink: #F7F6F2;
+  --color-ink-light: #EEEDEA;
+  --color-ink-muted: #B0B0B0;
+  --color-offwhite: #111111;
+  --color-offwhite-dark: #1a1a1a;
+  --color-border: #2a2a2a;
+  --color-border-dark: #E5E5E5;
+  --color-surface: #161616;
+  --color-surface-hover: #1e1e1e;
+  --color-bg: #111111;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

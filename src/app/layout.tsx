@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -44,17 +45,20 @@ export const metadata: Metadata = {
     title: "OFFCLASS — Build Your Life Beyond the Classroom",
     description:
       "Practical tools, knowledge, and opportunities to help students build financial, professional, and personal independence.",
+    images: ["/og-image.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "OFFCLASS — Build Your Life Beyond the Classroom",
     description:
       "Practical tools, knowledge, and opportunities to help students build financial, professional, and personal independence.",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -71,6 +75,7 @@ export default function RootLayout({
           <main id="main-content" className="flex-1 pt-[72px]">{children}</main>
           <Footer />
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );

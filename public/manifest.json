@@ -1,0 +1,21 @@
+{
+  "name": "OFFCLASS",
+  "short_name": "OFFCLASS",
+  "description": "Build Your Life Beyond the Classroom",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#3157D5",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
