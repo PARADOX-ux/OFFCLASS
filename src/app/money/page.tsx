@@ -346,7 +346,7 @@ function MoneyEducation() {
     {
       title: 'Recognizing scams',
       content:
-        'Be cautious of anything that promises guaranteed income, asks for money upfront, or sounds too good to be true. Legitimate opportunities don\'t require you to pay to earn.',
+        'Be cautious of anything that promises guaranteed income, asks for money upfront, or sounds too good to be true. Remote data-entry jobs and "pay-to-unlock-work" schemes are common scams targeting students. Never pay to get a job or share banking OTPs with recruiters.',
     },
     {
       title: 'Tax basics for students',

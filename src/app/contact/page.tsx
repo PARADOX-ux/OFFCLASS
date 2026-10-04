@@ -61,13 +61,13 @@ export default function ContactPage() {
                   <h3 className="font-semibold text-[var(--color-ink)] font-[var(--font-display)] mb-1">
                     General inquiries
                   </h3>
-                  <p>hello@offclass.in</p>
+                  <p>hello@offclass-app.com</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-[var(--color-ink)] font-[var(--font-display)] mb-1">
                     Partnerships
                   </h3>
-                  <p>partners@offclass.in</p>
+                  <p>partners@offclass-app.com</p>
                 </div>
               </div>
             </div>

@@ -949,7 +949,7 @@ export const earningPathways = [
   {
     title: 'Part-time Work',
     description: 'Find flexible work that fits around your college schedule.',
-    examples: ['Tutoring', 'Retail', 'Campus jobs', 'Data entry'],
+    examples: ['Tutoring', 'Retail', 'Campus jobs', 'Event staffing'],
     difficulty: 'Easy',
     timeToFirstEarning: '1–2 weeks',
     iconName: 'Clock',
@@ -981,7 +981,7 @@ export const earningPathways = [
   {
     title: 'Skill-based Services',
     description: 'Turn specific skills into local or online services.',
-    examples: ['Photography', 'Graphic design', 'Presentations', 'Assignments help'],
+    examples: ['Photography', 'Presentation design', 'Research assistance', 'Data visualization'],
     difficulty: 'Easy',
     timeToFirstEarning: '1–2 weeks',
     iconName: 'Wrench',

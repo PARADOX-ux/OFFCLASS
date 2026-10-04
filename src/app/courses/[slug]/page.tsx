@@ -16,13 +16,13 @@ const dummyCourseData = {
   },
   duration: '45 mins',
   lessons: 8,
-  description: 'Learn the fundamentals of building wealth outside of a 9-to-5 job. From index funds to basic real estate strategies.',
+  description: 'Learn the fundamentals of building wealth. From mutual funds to basic investing strategies.',
   chapters: [
     { id: 1, title: 'Introduction to Wealth Building', duration: '5 min', completed: true },
     { id: 2, title: 'Understanding Compound Interest', duration: '8 min', completed: false },
     { id: 3, title: 'Index Funds vs. Mutual Funds', duration: '12 min', completed: false },
     { id: 4, title: 'Risk Tolerance & Portfolios', duration: '10 min', completed: false },
-    { id: 5, title: 'Action Plan: Your First $1,000', duration: '10 min', completed: false },
+    { id: 5, title: 'Action Plan: Your First ₹10,000', duration: '10 min', completed: false },
   ]
 };
 
@@ -45,7 +45,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
           <div className="lg:col-span-8">
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <span className="pill pill-money text-[0.75rem]">Investing</span>
+                <span className="pill pill-money text-[0.75rem]">DEMO COURSE</span>
                 <span className="text-[var(--color-muted)] text-[0.85rem] flex items-center">
                   <Clock size={14} className="mr-1" /> {dummyCourseData.duration}
                 </span>

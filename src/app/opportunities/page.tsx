@@ -148,6 +148,17 @@ export default function OpportunitiesPage() {
                     Eligibility: {opp.eligibility}
                   </p>
 
+                  {/* Verification */}
+                  <div className="flex flex-col gap-1 mb-4 relative z-10 p-3 bg-[var(--color-offwhite-dark)] rounded-[var(--radius-sm)]">
+                    <div className="flex items-center gap-1.5 text-[0.75rem] text-[#16a34a] font-medium">
+                      <div className="w-2 h-2 rounded-full bg-[#16a34a]"></div>
+                      Verified {new Date(opp.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </div>
+                    <p className="text-[0.7rem] text-[var(--color-muted)]">
+                       Source: Official Website
+                    </p>
+                  </div>
+
                   {/* Action */}
                   <div className="mt-auto pt-4 relative z-10">
                     <span className="inline-flex items-center gap-2 text-[0.85rem] font-bold text-[var(--color-tech)] group-hover:text-[var(--color-ink)] transition-colors pointer-events-none">
@@ -178,7 +189,7 @@ export default function OpportunitiesPage() {
           <RevealSection delay={0.2}>
             <div className="mt-12 p-5 bg-[var(--color-offwhite)] rounded-[var(--radius-lg)] border border-[var(--color-border)]">
               <p className="text-[0.85rem] text-[var(--color-muted)]">
-                More opportunities are added weekly. Saving opportunities will require an account in a future update.
+                The current listings are demo data to demonstrate the concept. The full verified opportunity engine will launch soon.
               </p>
             </div>
           </RevealSection>

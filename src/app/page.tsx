@@ -90,15 +90,21 @@ export default function HomePage() {
             </RevealSection>
 
             <RevealSection delay={0.3}>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/money" className="btn btn-accent btn-lg">
-                  Start with Money
-                  <ArrowRight size={18} />
-                </Link>
-                <Link href="#pillars" className="btn btn-outline btn-lg">
-                  Explore OFFCLASS
-                  <ArrowDown size={16} />
-                </Link>
+              <div className="flex flex-col gap-4">
+                <p className="font-bold text-[1.05rem] text-[var(--color-ink)] mb-1">
+                  Don't know what to do next? Start here.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link href="/money" className="btn btn-accent btn-lg text-[0.95rem]">
+                    💰 I want to earn
+                  </Link>
+                  <Link href="/skills" className="btn btn-primary btn-lg text-[0.95rem]">
+                    🧠 I want to build a skill
+                  </Link>
+                  <Link href="/career" className="btn btn-outline btn-lg text-[0.95rem] bg-white hover:bg-gray-50">
+                    🚀 I want to build my career
+                  </Link>
+                </div>
               </div>
             </RevealSection>
 

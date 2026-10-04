@@ -135,7 +135,7 @@ export default function SkillsPage() {
                   <div className="flex items-center gap-4 text-[0.8rem] text-[var(--color-muted)] mb-4">
                     <span className="flex items-center gap-1">
                       <Clock size={14} />
-                      ~{skill.learningTimeWeeks} weeks
+                      Est: {skill.learningTimeWeeks * 5}–{skill.learningTimeWeeks * 8} hours
                     </span>
                     <span className="flex items-center gap-1">
                       <Star size={14} />
