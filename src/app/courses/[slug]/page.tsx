@@ -22,7 +22,7 @@ const dummyCourseData = {
     { id: 2, title: 'Understanding Compound Interest', duration: '8 min', completed: false },
     { id: 3, title: 'Index Funds vs. Mutual Funds', duration: '12 min', completed: false },
     { id: 4, title: 'Risk Tolerance & Portfolios', duration: '10 min', completed: false },
-    { id: 5, title: 'Action Plan: Your First ₹10,000', duration: '10 min', completed: false },
+    { id: 5, title: 'Action Plan: Your First ₹1,000', duration: '10 min', completed: false },
   ]
 };
 
