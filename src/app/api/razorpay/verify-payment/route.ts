@@ -6,15 +6,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
+import { isRazorpayConfigured } from '@/lib/razorpay';
 
-// Use service role key for server-side Supabase operations
+// Use service role key for server-side Supabase operations (with safe fallback for build-time evaluation)
 const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key'
 );
 
 export async function POST(request: NextRequest) {
   try {
+    if (!isRazorpayConfigured) {
+      return NextResponse.json(
+        { error: 'Payment gateway is not configured on this environment.' },
+        { status: 503 }
+      );
+    }
+
     const body = await request.json();
     const {
       razorpay_order_id,

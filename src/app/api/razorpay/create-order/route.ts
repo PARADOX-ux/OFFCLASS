@@ -4,10 +4,17 @@
 // ============================================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import razorpay, { PLANS, type PlanId } from '@/lib/razorpay';
+import razorpay, { PLANS, type PlanId, isRazorpayConfigured } from '@/lib/razorpay';
 
 export async function POST(request: NextRequest) {
   try {
+    if (!isRazorpayConfigured) {
+      return NextResponse.json(
+        { error: 'Payment gateway is not configured on this environment.' },
+        { status: 503 }
+      );
+    }
+
     const body = await request.json();
     const { planId, courseId, courseName, amount: courseAmount, userId, userEmail } = body;
 
@@ -77,10 +84,11 @@ export async function POST(request: NextRequest) {
       amount: order.amount,
       currency: order.currency,
       description,
-      notes,
+      planId: planId || null,
+      courseId: courseId || null,
     });
   } catch (error: any) {
-    console.error('Razorpay create-order error:', error);
+    console.error('Razorpay order creation error:', error);
     return NextResponse.json(
       { error: error.message || 'Failed to create order' },
       { status: 500 }
