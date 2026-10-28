@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import RevealSection from '@/components/RevealSection';
 import { earningPathways, demoTools } from '@/lib/data';
+import { calculateBudget, calculateSavings, calculateFreelanceRate } from '@/lib/calculators';
 
 const pathwayIcons: Record<string, React.ReactNode> = {
   Laptop: <Laptop size={24} />,
@@ -46,11 +47,7 @@ function BudgetCalculator() {
     other: '',
   });
 
-  const totalExpenses = Object.values(expenses).reduce(
-    (sum, val) => sum + (parseFloat(val) || 0),
-    0
-  );
-  const remaining = (parseFloat(income) || 0) - totalExpenses;
+  const { totalExpenses, remaining } = calculateBudget(parseFloat(income), expenses);
 
   return (
     <div className="card p-6 md:p-8">
@@ -141,9 +138,7 @@ function SavingsCalculator() {
   const goalNum = parseFloat(goal) || 0;
   const monthsNum = parseInt(months) || 1;
   const currentNum = parseFloat(current) || 0;
-  const remaining = Math.max(0, goalNum - currentNum);
-  const monthly = remaining / monthsNum;
-  const weekly = monthly / 4.33;
+  const { remaining, monthly, weekly } = calculateSavings(goalNum, currentNum, monthsNum);
 
   return (
     <div className="card p-6 md:p-8">
@@ -243,8 +238,7 @@ function FreelancePricingCalculator() {
   const monthly = parseFloat(desiredMonthly) || 0;
   const projects = parseInt(projectsPerMonth) || 1;
 
-  const pricePerProject = monthly / projects;
-  const hourlyRate = hours > 0 ? pricePerProject / hours : 0;
+  const { pricePerProject, hourlyRate } = calculateFreelanceRate(monthly, projects, hours);
 
   return (
     <div className="card p-6 md:p-8">

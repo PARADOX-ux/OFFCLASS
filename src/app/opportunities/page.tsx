@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Search, MapPin, Calendar, ExternalLink } from 'lucide-react';
+import { ArrowRight, Search, MapPin, Calendar, ExternalLink, CheckCircle, HelpCircle } from 'lucide-react';
 import RevealSection from '@/components/RevealSection';
 import SaveButton from '@/components/SaveButton';
 import { demoOpportunities } from '@/lib/data';
@@ -150,13 +150,26 @@ export default function OpportunitiesPage() {
 
                   {/* Verification */}
                   <div className="flex flex-col gap-1 mb-4 relative z-10 p-3 bg-[var(--color-offwhite-dark)] rounded-[var(--radius-sm)]">
-                    <div className="flex items-center gap-1.5 text-[0.75rem] text-[#16a34a] font-medium">
-                      <div className="w-2 h-2 rounded-full bg-[#16a34a]"></div>
-                      Verified {new Date(opp.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </div>
-                    <p className="text-[0.7rem] text-[var(--color-muted)]">
-                       Source: Official Website
-                    </p>
+                    {opp.verificationStatus === 'verified' ? (
+                      <>
+                        <div className="flex items-center gap-1.5 text-[0.75rem] text-[#16a34a] font-medium">
+                          <CheckCircle size={14} className="text-[#16a34a]" />
+                          <span>Verified from Official Source ({new Date(opp.updatedAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })})</span>
+                        </div>
+                        <p className="text-[0.7rem] text-[var(--color-muted)]">
+                          Details confirmed with official programme portal.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-1.5 text-[0.75rem] text-[var(--color-muted)] font-medium">
+                          <span className="badge badge-demo">Example Listing</span>
+                        </div>
+                        <p className="text-[0.7rem] text-[var(--color-muted)]">
+                          Illustrative entry to demonstrate platform format & discovery.
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   {/* Action */}
@@ -187,9 +200,15 @@ export default function OpportunitiesPage() {
 
           {/* Architecture note */}
           <RevealSection delay={0.2}>
-            <div className="mt-12 p-5 bg-[var(--color-offwhite)] rounded-[var(--radius-lg)] border border-[var(--color-border)]">
-              <p className="text-[0.85rem] text-[var(--color-muted)]">
-                The current listings are demo data to demonstrate the concept. The full verified opportunity engine will launch soon.
+            <div className="mt-12 p-6 bg-[var(--color-offwhite)] rounded-[var(--radius-lg)] border border-[var(--color-border)]">
+              <h4 className="text-[0.95rem] font-bold font-[var(--font-display)] mb-2 flex items-center gap-2">
+                <span>🛡️ Verification & Accuracy Policy</span>
+              </h4>
+              <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed mb-3">
+                Listings marked <strong>&quot;Verified from Official Source&quot;</strong> are audited against live organization portals (e.g. AICTE SIH, Google GSoC, Reliance Foundation, IIT Bombay E-Cell). Deadlines, eligibility, and links are re-checked regularly.
+              </p>
+              <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed">
+                Listings marked <strong>&quot;Example Listing&quot;</strong> are representative examples intended to demonstrate career pathways and role structures. OFFCLASS never charges fees for job applications or guarantees placement outcomes.
               </p>
             </div>
           </RevealSection>

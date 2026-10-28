@@ -29,8 +29,14 @@ const dummyCourseData = {
   ]
 };
 
-export default function CoursePage({ params }: { params: { slug: string } }) {
-  // Use React.use to unwrap params if needed in Next.js 15, but since we aren't using the slug yet we can just mock it.
+export default function CoursePage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const [resolvedSlug, setResolvedSlug] = useState<string>('investing-101');
+
+  React.useEffect(() => {
+    Promise.resolve(params).then((p) => {
+      if (p?.slug) setResolvedSlug(p.slug);
+    });
+  }, [params]);
   const { user } = useAuth();
   const router = useRouter();
   const [toastMessage, setToastMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);

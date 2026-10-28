@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   // Mock content for demonstration
   return (
     <div className="bg-[var(--color-bg)] min-h-screen pt-32 pb-20">

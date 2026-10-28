@@ -29,7 +29,13 @@ export async function POST(request: NextRequest) {
       type, // 'subscription' | 'course'
     } = body;
 
-    // ── Step 1: Verify Signature ───────────────────────────────
+    // ── Step 0: Validate required payload ─────────────────────
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return NextResponse.json(
+        { error: 'Missing payment signature verification parameters' },
+        { status: 400 }
+      );
+    }
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     if (!keySecret) {
       return NextResponse.json(

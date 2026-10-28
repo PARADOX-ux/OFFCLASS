@@ -39,16 +39,24 @@ export async function POST(request: NextRequest) {
         user_email: userEmail || '',
       };
     } else if (courseId && courseAmount) {
+      // Validate that courseAmount is a positive integer (in paise)
+      const parsedAmount = parseInt(String(courseAmount), 10);
+      if (isNaN(parsedAmount) || parsedAmount <= 0 || parsedAmount > 5000000) {
+        return NextResponse.json(
+          { error: 'Invalid course amount' },
+          { status: 400 }
+        );
+      }
       // One-time course purchase
-      amount = courseAmount;
+      amount = parsedAmount;
       receipt = `course_${courseId}_${Date.now()}`;
       description = `Purchase: ${courseName || courseId}`;
       notes = {
         type: 'course',
-        course_id: courseId,
-        course_name: courseName || '',
-        user_id: userId || '',
-        user_email: userEmail || '',
+        course_id: String(courseId).slice(0, 50),
+        course_name: String(courseName || courseId).slice(0, 100),
+        user_id: userId ? String(userId).slice(0, 60) : '',
+        user_email: userEmail ? String(userEmail).slice(0, 100) : '',
       };
     } else {
       return NextResponse.json(

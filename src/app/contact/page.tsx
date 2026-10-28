@@ -15,26 +15,31 @@ export default function ContactPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg(null);
     
     try {
-      // Formspree integration for real form submissions
-      // (Requires replacing 'placeholder_id' with a real Formspree form ID)
-      const response = await fetch('https://formspree.io/f/placeholder_id', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
-      
-      // Even if placeholder fails, we show success in UI for demo purposes
+
+      const resData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(resData.error || 'Failed to send message');
+      }
+
       setSubmitted(true);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      setErrorMsg(error?.message || 'Could not send message. Please email hello@offclass.in directly.');
     } finally {
       setLoading(false);
     }
@@ -147,6 +152,11 @@ export default function ContactPage() {
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       />
                     </div>
+                    {errorMsg && (
+                      <div className="p-3 bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] rounded-lg text-sm text-[#dc2626]">
+                        {errorMsg}
+                      </div>
+                    )}
                     <button type="submit" disabled={loading} className="btn btn-primary w-full disabled:opacity-70">
                       {loading ? 'Sending...' : 'Send Message'}
                       {!loading && <Send size={16} />}
