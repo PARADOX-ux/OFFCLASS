@@ -11,7 +11,18 @@ import { isRazorpayConfigured } from '@/lib/razorpay';
 // Use service role key for server-side Supabase operations (with safe fallback for build-time evaluation)
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key'
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key',
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+    global: {
+      headers: {
+        'User-Agent': 'OFFCLASS-Backend-Server/1.0',
+      },
+    },
+  }
 );
 
 export async function POST(request: NextRequest) {

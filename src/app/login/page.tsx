@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, hasSecretKeyMisconfigured } from '@/lib/supabase';
 import { ArrowRight, Mail, Lock, Sparkles, BookOpen, Briefcase, Zap, GraduationCap, Code } from 'lucide-react';
 
 export default function LoginPage() {
@@ -18,16 +18,41 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError(error.message);
+    if (hasSecretKeyMisconfigured) {
+      setError(
+        'Configuration Error: A secret API key was detected in NEXT_PUBLIC_SUPABASE_ANON_KEY. Please update it in Vercel/environment settings with your Supabase "anon" (publishable) key.'
+      );
       setLoading(false);
-    } else {
-      router.push('/dashboard');
+      return;
+    }
+
+    if (!isSupabaseConfigured) {
+      setError('Authentication service is currently not configured.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        if (error.message.includes('secret API key') || error.message.includes('Forbidden')) {
+          setError(
+            'Forbidden use of secret API key in browser: Replace NEXT_PUBLIC_SUPABASE_ANON_KEY in your settings with the anon/publishable key.'
+          );
+        } else {
+          setError(error.message);
+        }
+        setLoading(false);
+      } else {
+        router.push('/dashboard');
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Failed to sign in. Please try again.');
+      setLoading(false);
     }
   };
 
