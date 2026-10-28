@@ -1,9 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, Clock, PlayCircle, CheckCircle } from 'lucide-react';
+import { ArrowLeft, BookOpen, Clock, PlayCircle, CheckCircle, Loader2, ShoppingCart, Sparkles, XCircle } from 'lucide-react';
 import SaveButton from '@/components/SaveButton';
+import { useRazorpay } from '@/hooks/useRazorpay';
+import { useAuth } from '@/components/AuthProvider';
+import { useRouter } from 'next/navigation';
 
 // This is dummy data. In the future, we will fetch this from Supabase based on the params.slug
 const dummyCourseData = {
@@ -28,9 +31,53 @@ const dummyCourseData = {
 
 export default function CoursePage({ params }: { params: { slug: string } }) {
   // Use React.use to unwrap params if needed in Next.js 15, but since we aren't using the slug yet we can just mock it.
+  const { user } = useAuth();
+  const router = useRouter();
+  const [toastMessage, setToastMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const { checkout, isProcessing, paymentStatus } = useRazorpay({
+    onSuccess: (paymentId) => {
+      setToastMessage({ type: 'success', text: `Course purchased! Payment ID: ${paymentId}` });
+      setTimeout(() => setToastMessage(null), 5000);
+    },
+    onError: (error) => {
+      setToastMessage({ type: 'error', text: error });
+      setTimeout(() => setToastMessage(null), 5000);
+    },
+  });
+
+  const handleBuyCourse = () => {
+    if (!user) {
+      router.push('/login?redirect=/courses/' + dummyCourseData.slug);
+      return;
+    }
+    checkout({
+      type: 'course',
+      courseId: dummyCourseData.slug,
+      courseName: dummyCourseData.title,
+      amount: 29900, // ₹299 in paise — replace with real course price
+    });
+  };
   
   return (
     <div className="min-h-screen bg-[var(--color-bg)] pt-24 pb-20">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div
+          className={`fixed top-24 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-lg text-[0.85rem] font-medium ${
+            toastMessage.type === 'success'
+              ? 'bg-[#0d1f0d] text-[#86efac] border border-[#22633a]'
+              : 'bg-[#1f0d0d] text-[#fca5a5] border border-[#7f1d1d]'
+          }`}
+        >
+          {toastMessage.type === 'success' ? <CheckCircle size={18} /> : <XCircle size={18} />}
+          {toastMessage.text}
+          <button onClick={() => setToastMessage(null)} className="ml-2 opacity-60 hover:opacity-100">
+            <XCircle size={14} />
+          </button>
+        </div>
+      )}
+
       <div className="container mx-auto max-w-[1200px] px-6">
         
         {/* Back Navigation */}
@@ -94,7 +141,37 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
 
           {/* Sidebar - Curriculum */}
           <div className="lg:col-span-4">
-            <div className="sticky top-24 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-[var(--shadow-sm)]">
+            {/* Buy Course Card */}
+            <div className="sticky top-24 space-y-4">
+              <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-[var(--shadow-sm)]">
+                <div className="flex items-end gap-1 mb-1">
+                  <span className="text-2xl font-bold font-[var(--font-display)] tracking-tight">₹299</span>
+                  <span className="text-[var(--color-muted)] text-xs mb-1 line-through">₹599</span>
+                  <span className="bg-[var(--color-money)] text-[var(--color-ink)] text-[0.6rem] px-2 py-0.5 rounded-full font-bold ml-2">50% OFF</span>
+                </div>
+                <p className="text-[0.75rem] text-[var(--color-muted)] mb-4">One-time purchase · Lifetime access</p>
+                
+                <button
+                  onClick={handleBuyCourse}
+                  disabled={isProcessing}
+                  className="w-full py-3 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-ink)] text-white hover:bg-[#333] transition-colors flex items-center justify-center gap-2 disabled:opacity-80 disabled:cursor-not-allowed mb-3"
+                >
+                  {paymentStatus === 'processing' ? (
+                    <><Loader2 size={16} className="animate-spin" /> Processing...</>
+                  ) : paymentStatus === 'success' ? (
+                    <><CheckCircle size={16} /> Purchased!</>
+                  ) : (
+                    <><ShoppingCart size={16} /> Buy This Course</>
+                  )}
+                </button>
+
+                <div className="flex items-center justify-center gap-2 text-[0.7rem] text-[var(--color-muted)]">
+                  <Sparkles size={12} className="text-[var(--color-money)]" />
+                  Secure payment via Razorpay
+                </div>
+              </div>
+
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-[var(--shadow-sm)]">
               <h3 className="font-bold text-[1.1rem] mb-6 flex items-center">
                 <BookOpen size={18} className="mr-2 text-[var(--color-money)]" />
                 Course Curriculum
@@ -129,6 +206,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                     </div>
                   </button>
                 ))}
+              </div>
               </div>
             </div>
           </div>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Clock, Plus, Trash2 } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 interface TimeBlock {
   id: string;
@@ -16,6 +18,7 @@ const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 export default function TimePlanner() {
   const [blocks, setBlocks] = useState<TimeBlock[]>([]);
   const [mounted, setMounted] = useState(false);
+  const { user } = useAuth();
   const [newBlock, setNewBlock] = useState<Partial<TimeBlock>>({
     day: 'Mon',
     category: 'Class',
@@ -33,11 +36,40 @@ export default function TimePlanner() {
         console.error('Failed to parse saved time blocks');
       }
     }
-  }, []);
 
-  const saveBlocks = (newBlocks: TimeBlock[]) => {
+    async function syncCloudBlocks() {
+      if (!user || !isSupabaseConfigured) return;
+      try {
+        const { data, error } = await supabase
+          .from('user_time_blocks')
+          .select('*')
+          .eq('user_id', user.id);
+
+        if (!error && data && data.length > 0) {
+          setBlocks(data);
+          localStorage.setItem('offclass-timeplanner', JSON.stringify(data));
+        }
+      } catch (err) {
+        console.error('Failed to sync time blocks with cloud', err);
+      }
+    }
+
+    syncCloudBlocks();
+  }, [user]);
+
+  const saveBlocks = async (newBlocks: TimeBlock[]) => {
     setBlocks(newBlocks);
     localStorage.setItem('offclass-timeplanner', JSON.stringify(newBlocks));
+
+    if (user && isSupabaseConfigured) {
+      try {
+        await supabase
+          .from('user_time_blocks')
+          .upsert(newBlocks.map(b => ({ ...b, user_id: user.id })));
+      } catch (err) {
+        console.error('Failed to save time blocks to cloud', err);
+      }
+    }
   };
 
   const handleAdd = () => {

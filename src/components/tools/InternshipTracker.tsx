@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2, CheckCircle, XCircle, ListChecks } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 interface Application {
   id: string;
@@ -16,6 +18,7 @@ export default function InternshipTracker() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [mounted, setMounted] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const { user } = useAuth();
   const [newApp, setNewApp] = useState<Partial<Application>>({
     company: '',
     role: '',
@@ -26,19 +29,50 @@ export default function InternshipTracker() {
 
   useEffect(() => {
     setMounted(true);
+    let localApps: Application[] = [];
     const saved = localStorage.getItem('offclass-internships');
     if (saved) {
       try {
-        setApplications(JSON.parse(saved));
+        localApps = JSON.parse(saved);
+        setApplications(localApps);
       } catch (e) {
         console.error('Failed to parse saved applications');
       }
     }
-  }, []);
 
-  const saveApplications = (apps: Application[]) => {
+    async function syncCloudApplications() {
+      if (!user || !isSupabaseConfigured) return;
+      try {
+        const { data, error } = await supabase
+          .from('user_applications')
+          .select('*')
+          .eq('user_id', user.id);
+
+        if (!error && data && data.length > 0) {
+          setApplications(data);
+          localStorage.setItem('offclass-internships', JSON.stringify(data));
+        }
+      } catch (err) {
+        console.error('Failed to sync applications with cloud', err);
+      }
+    }
+
+    syncCloudApplications();
+  }, [user]);
+
+  const saveApplications = async (apps: Application[]) => {
     setApplications(apps);
     localStorage.setItem('offclass-internships', JSON.stringify(apps));
+
+    if (user && isSupabaseConfigured) {
+      try {
+        await supabase
+          .from('user_applications')
+          .upsert(apps.map(a => ({ ...a, user_id: user.id })));
+      } catch (err) {
+        console.error('Failed to save applications to cloud', err);
+      }
+    }
   };
 
   const handleAdd = () => {

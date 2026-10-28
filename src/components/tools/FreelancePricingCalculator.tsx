@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { IndianRupee } from 'lucide-react';
+import { calculateFreelanceRate } from '@/lib/calculators';
 
 export default function FreelancePricingCalculator() {
   const [hoursPerProject, setHoursPerProject] = useState('');
@@ -12,8 +13,7 @@ export default function FreelancePricingCalculator() {
   const monthly = parseFloat(desiredMonthly) || 0;
   const projects = parseInt(projectsPerMonth) || 1;
 
-  const pricePerProject = monthly / projects;
-  const hourlyRate = hours > 0 ? pricePerProject / hours : 0;
+  const { pricePerProject, hourlyRate } = calculateFreelanceRate(monthly, projects, hours);
 
   return (
     <div className="card p-6 md:p-8">

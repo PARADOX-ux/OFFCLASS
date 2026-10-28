@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Calculator } from 'lucide-react';
+import { calculateBudget } from '@/lib/calculators';
 
 export default function BudgetCalculator() {
   const [income, setIncome] = useState('');
@@ -14,11 +15,7 @@ export default function BudgetCalculator() {
     other: '',
   });
 
-  const totalExpenses = Object.values(expenses).reduce(
-    (sum, val) => sum + (parseFloat(val) || 0),
-    0
-  );
-  const remaining = (parseFloat(income) || 0) - totalExpenses;
+  const { totalExpenses, remaining } = calculateBudget(parseFloat(income), expenses);
 
   return (
     <div className="card p-6 md:p-8">

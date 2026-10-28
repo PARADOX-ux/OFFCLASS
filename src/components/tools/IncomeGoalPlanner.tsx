@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Target } from 'lucide-react';
+import { calculateIncomeGoal } from '@/lib/calculators';
 
 export default function IncomeGoalPlanner() {
   const [monthlyGoal, setMonthlyGoal] = useState('');
@@ -10,8 +11,7 @@ export default function IncomeGoalPlanner() {
 
   const goal = parseFloat(monthlyGoal) || 0;
   const hours = parseInt(hoursPerWeek) || 0;
-  const totalHoursPerMonth = hours * 4.33;
-  const requiredHourlyRate = totalHoursPerMonth > 0 ? goal / totalHoursPerMonth : 0;
+  const { totalHoursPerMonth, requiredHourlyRate } = calculateIncomeGoal(goal, hours);
 
   return (
     <div className="card p-6 md:p-8" id="income-goal">

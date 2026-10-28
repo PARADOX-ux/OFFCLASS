@@ -7,6 +7,7 @@ import { LogOut, User, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { demoOpportunities, demoSkills } from '@/lib/data';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
@@ -18,12 +19,46 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setMounted(true);
-    const oppIds = JSON.parse(localStorage.getItem('offclass-saved-opportunitys') || '[]');
-    const skillIds = JSON.parse(localStorage.getItem('offclass-saved-skills') || '[]');
-    
-    setSavedOpps(demoOpportunities.filter(o => oppIds.includes(o.id)));
-    setSavedSkills(demoSkills.filter(s => skillIds.includes(s.id)));
-  }, []);
+
+    async function loadSavedItems() {
+      // 1. Read local items (checking both pluralization variants)
+      const localOppIds: string[] = JSON.parse(
+        localStorage.getItem('offclass-saved-opportunities') ||
+        localStorage.getItem('offclass-saved-opportunitys') ||
+        '[]'
+      );
+      const localSkillIds: string[] = JSON.parse(
+        localStorage.getItem('offclass-saved-skills') || '[]'
+      );
+
+      const finalOppIds = new Set<string>(localOppIds);
+      const finalSkillIds = new Set<string>(localSkillIds);
+
+      // 2. If authenticated, fetch cloud saved items and merge
+      if (user && isSupabaseConfigured) {
+        try {
+          const { data, error } = await supabase
+            .from('saved_items')
+            .select('item_id, item_type')
+            .eq('user_id', user.id);
+
+          if (!error && data) {
+            data.forEach((item) => {
+              if (item.item_type === 'opportunity') finalOppIds.add(item.item_id);
+              if (item.item_type === 'skill') finalSkillIds.add(item.item_id);
+            });
+          }
+        } catch (err) {
+          console.error('Failed to load cloud saved items', err);
+        }
+      }
+
+      setSavedOpps(demoOpportunities.filter((o) => finalOppIds.has(o.id)));
+      setSavedSkills(demoSkills.filter((s) => finalSkillIds.has(s.id)));
+    }
+
+    loadSavedItems();
+  }, [user]);
 
   useEffect(() => {
     if (!loading && !user) {

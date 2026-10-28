@@ -1050,3 +1050,43 @@ export const lifeCategories = [
     topics: ['LinkedIn profile', 'Portfolio building', 'Online presence', 'Professional identity'],
   },
 ];
+
+
+// ============================================================
+// ASYNC DATA PROVIDERS (Supabase with Static Fallback)
+// ============================================================
+import { supabase, isSupabaseConfigured } from './supabase';
+
+export async function getLiveOrDemoOpportunities(): Promise<Opportunity[]> {
+  if (isSupabaseConfigured) {
+    try {
+      const { data, error } = await supabase
+        .from('opportunities')
+        .select('*')
+        .eq('status', 'published');
+      if (!error && data && data.length > 0) {
+        return data as Opportunity[];
+      }
+    } catch {
+      // Fallback to demo data
+    }
+  }
+  return demoOpportunities;
+}
+
+export async function getLiveOrDemoSkills(): Promise<Skill[]> {
+  if (isSupabaseConfigured) {
+    try {
+      const { data, error } = await supabase
+        .from('skills')
+        .select('*')
+        .eq('status', 'published');
+      if (!error && data && data.length > 0) {
+        return data as Skill[];
+      }
+    } catch {
+      // Fallback to demo data
+    }
+  }
+  return demoSkills;
+}

@@ -2,27 +2,80 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2, Zap, ArrowRight, ShieldAlert, Loader2 } from 'lucide-react';
+import { CheckCircle2, Zap, ArrowRight, ShieldAlert, Loader2, XCircle, Sparkles } from 'lucide-react';
 import RevealSection from '@/components/RevealSection';
+import { useRazorpay } from '@/hooks/useRazorpay';
+import { useAuth } from '@/components/AuthProvider';
+import { useRouter } from 'next/navigation';
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
-  const [processingState, setProcessingState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const { user } = useAuth();
+  const router = useRouter();
+  const [toastMessage, setToastMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleSubscribe = () => {
-    setProcessingState('loading');
-    // Simulate Razorpay popup delay
-    setTimeout(() => {
-      setProcessingState('success');
-      // Reset after showing success
-      setTimeout(() => setProcessingState('idle'), 3000);
-    }, 2000);
+  const { checkout, isProcessing, paymentStatus } = useRazorpay({
+    onSuccess: (paymentId) => {
+      setToastMessage({ type: 'success', text: `Payment successful! ID: ${paymentId}` });
+      setTimeout(() => setToastMessage(null), 5000);
+    },
+    onError: (error) => {
+      setToastMessage({ type: 'error', text: error });
+      setTimeout(() => setToastMessage(null), 5000);
+    },
+  });
+
+  const handleSubscribe = (tier: 'plus' | 'pro') => {
+    if (!user) {
+      router.push('/login?redirect=/pricing');
+      return;
+    }
+
+    const planId = `${tier}_${isAnnual ? 'annual' : 'monthly'}`;
+    checkout({ type: 'subscription', planId });
+  };
+
+  // Button states
+  const getButtonContent = (tier: 'plus' | 'pro') => {
+    if (paymentStatus === 'processing') {
+      return <><Loader2 size={16} className="animate-spin" /> Processing...</>;
+    }
+    if (paymentStatus === 'success') {
+      return <><CheckCircle2 size={16} /> Subscribed!</>;
+    }
+    if (paymentStatus === 'error') {
+      return <><XCircle size={16} /> Try Again</>;
+    }
+    return tier === 'plus'
+      ? <>Subscribe Plus <ArrowRight size={16} /></>
+      : <>Subscribe Pro</>;
   };
 
   return (
     <div className="min-h-[85vh] bg-[var(--color-bg)] pt-24 pb-12">
       <div className="container mx-auto max-w-[1200px] px-6">
         
+        {/* Toast Notification */}
+        {toastMessage && (
+          <div
+            className={`fixed top-24 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-lg text-[0.85rem] font-medium animate-[slideInRight_0.3s_ease] ${
+              toastMessage.type === 'success'
+                ? 'bg-[#0d1f0d] text-[#86efac] border border-[#22633a]'
+                : 'bg-[#1f0d0d] text-[#fca5a5] border border-[#7f1d1d]'
+            }`}
+          >
+            {toastMessage.type === 'success' ? (
+              <CheckCircle2 size={18} />
+            ) : (
+              <XCircle size={18} />
+            )}
+            {toastMessage.text}
+            <button onClick={() => setToastMessage(null)} className="ml-2 opacity-60 hover:opacity-100">
+              <XCircle size={14} />
+            </button>
+          </div>
+        )}
+
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-8">
           <RevealSection>
@@ -122,18 +175,17 @@ export default function PricingPage() {
                 ))}
               </ul>
               <button 
-                onClick={handleSubscribe}
-                disabled={processingState === 'loading'}
-                className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-money)] text-[var(--color-ink)] hover:bg-[#a3df3d] transition-colors flex items-center justify-center gap-2 relative z-10 disabled:opacity-80"
+                onClick={() => handleSubscribe('plus')}
+                disabled={isProcessing}
+                className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-money)] text-[var(--color-ink)] hover:bg-[#a3df3d] transition-colors flex items-center justify-center gap-2 relative z-10 disabled:opacity-80 disabled:cursor-not-allowed"
               >
-                {processingState === 'loading' ? (
-                  <><Loader2 size={16} className="animate-spin" /> Processing...</>
-                ) : processingState === 'success' ? (
-                  <><CheckCircle2 size={16} /> Subscribed!</>
-                ) : (
-                  <>Subscribe Plus <ArrowRight size={16} /></>
-                )}
+                {getButtonContent('plus')}
               </button>
+              {!user && (
+                <p className="text-gray-500 text-[0.7rem] text-center mt-2 relative z-10">
+                  You&apos;ll be asked to log in first
+                </p>
+              )}
             </div>
           </RevealSection>
 
@@ -170,22 +222,40 @@ export default function PricingPage() {
                 ))}
               </ul>
               <button 
-                onClick={handleSubscribe}
-                disabled={processingState === 'loading'}
-                className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[rgba(49,87,213,0.1)] text-[var(--color-tech)] hover:bg-[rgba(49,87,213,0.15)] transition-colors flex items-center justify-center gap-2 disabled:opacity-80"
+                onClick={() => handleSubscribe('pro')}
+                disabled={isProcessing}
+                className="w-full py-3.5 px-6 rounded-xl font-bold text-[0.9rem] bg-[rgba(49,87,213,0.1)] text-[var(--color-tech)] hover:bg-[rgba(49,87,213,0.15)] transition-colors flex items-center justify-center gap-2 disabled:opacity-80 disabled:cursor-not-allowed"
               >
-                {processingState === 'loading' ? (
-                  <><Loader2 size={16} className="animate-spin" /> Processing...</>
-                ) : processingState === 'success' ? (
-                  <><CheckCircle2 size={16} /> Subscribed!</>
-                ) : (
-                  <>Subscribe Pro</>
-                )}
+                {getButtonContent('pro')}
               </button>
+              {!user && (
+                <p className="text-[var(--color-muted)] text-[0.7rem] text-center mt-2">
+                  You&apos;ll be asked to log in first
+                </p>
+              )}
             </div>
           </RevealSection>
 
         </div>
+
+        {/* Security & Payment Badge */}
+        <RevealSection delay={0.25}>
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
+            <div className="flex items-center gap-2 text-[0.8rem] text-[var(--color-muted)]">
+              <Sparkles size={14} className="text-[var(--color-money)]" />
+              Powered by Razorpay
+            </div>
+            <span className="text-[var(--color-border)]">•</span>
+            <div className="flex items-center gap-2 text-[0.8rem] text-[var(--color-muted)]">
+              <ShieldAlert size={14} />
+              256-bit SSL Encrypted
+            </div>
+            <span className="text-[var(--color-border)]">•</span>
+            <div className="text-[0.8rem] text-[var(--color-muted)]">
+              UPI • Cards • Net Banking • Wallets
+            </div>
+          </div>
+        </RevealSection>
 
         {/* Disclaimer Bottom */}
         <RevealSection delay={0.3}>

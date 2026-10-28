@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Target } from 'lucide-react';
+import { calculateSavings } from '@/lib/calculators';
 
 export default function SavingsCalculator() {
   const [goal, setGoal] = useState('');
@@ -11,9 +12,7 @@ export default function SavingsCalculator() {
   const goalNum = parseFloat(goal) || 0;
   const monthsNum = parseInt(months) || 1;
   const currentNum = parseFloat(current) || 0;
-  const remaining = Math.max(0, goalNum - currentNum);
-  const monthly = remaining / monthsNum;
-  const weekly = monthly / 4.33;
+  const { remaining, monthly, weekly } = calculateSavings(goalNum, currentNum, monthsNum);
 
   return (
     <div className="card p-6 md:p-8">

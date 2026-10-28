@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Bookmark, BookmarkCheck } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 interface SaveButtonProps {
   itemId: string;
@@ -17,47 +16,79 @@ export default function SaveButton({ itemId, itemType, className = '', showText 
   const [isSaved, setIsSaved] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { user, loading } = useAuth();
-  const router = useRouter();
+
+  const storageKey = `offclass-saved-${itemType}s`;
 
   useEffect(() => {
     setMounted(true);
-    
-    async function checkSavedStatus() {
-      if (!user) return;
-      const { data } = await supabase
-        .from('saved_items')
-        .select('id')
-        .match({ user_id: user.id, item_id: itemId, item_type: itemType })
-        .single();
-        
-      if (data) setIsSaved(true);
+
+    // 1. Check local storage
+    try {
+      const localSaved: string[] = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      if (localSaved.includes(itemId)) {
+        setIsSaved(true);
+      }
+    } catch {
+      // Ignore JSON parse errors
     }
-    
-    checkSavedStatus();
-  }, [itemId, itemType, user]);
+
+    // 2. If authenticated, check Supabase
+    async function checkSupabaseStatus() {
+      if (!user || !isSupabaseConfigured) return;
+      try {
+        const { data } = await supabase
+          .from('saved_items')
+          .select('id')
+          .match({ user_id: user.id, item_id: itemId, item_type: itemType })
+          .maybeSingle();
+
+        if (data) {
+          setIsSaved(true);
+        }
+      } catch (err) {
+        console.error('Failed to check cloud saved status', err);
+      }
+    }
+
+    checkSupabaseStatus();
+  }, [itemId, itemType, user, storageKey]);
 
   const toggleSave = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!user) {
-      router.push('/login');
-      return;
-    }
-
     const nextState = !isSaved;
     setIsSaved(nextState);
 
-    if (nextState) {
-      await supabase.from('saved_items').insert({
-        user_id: user.id,
-        item_id: itemId,
-        item_type: itemType
-      });
-    } else {
-      await supabase.from('saved_items')
-        .delete()
-        .match({ user_id: user.id, item_id: itemId, item_type: itemType });
+    // 1. Always update local storage for offline resilience
+    try {
+      const localSaved: string[] = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      const updated = nextState
+        ? Array.from(new Set([...localSaved, itemId]))
+        : localSaved.filter((id) => id !== itemId);
+      localStorage.setItem(storageKey, JSON.stringify(updated));
+    } catch (err) {
+      console.error('Failed to update local storage', err);
+    }
+
+    // 2. Sync with Supabase if user is authenticated
+    if (user && isSupabaseConfigured) {
+      try {
+        if (nextState) {
+          await supabase.from('saved_items').upsert({
+            user_id: user.id,
+            item_id: itemId,
+            item_type: itemType,
+          });
+        } else {
+          await supabase
+            .from('saved_items')
+            .delete()
+            .match({ user_id: user.id, item_id: itemId, item_type: itemType });
+        }
+      } catch (err) {
+        console.error('Failed to sync to Supabase', err);
+      }
     }
   };
 

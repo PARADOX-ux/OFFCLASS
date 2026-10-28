@@ -5,12 +5,14 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { Analytics } from "@vercel/analytics/react";
+import RazorpayScript from "@/components/RazorpayScript";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
+  fallback: ["system-ui", "sans-serif"],
 });
 
 const inter = Inter({
@@ -18,9 +20,11 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
+  fallback: ["system-ui", "-apple-system", "sans-serif"],
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://offclass.in"),
   title: {
     default: "OFFCLASS — Build Your Life Beyond the Classroom",
     template: "%s | OFFCLASS",
@@ -76,6 +80,7 @@ export default function RootLayout({
           <Footer />
         </AuthProvider>
         <Analytics />
+        <RazorpayScript />
       </body>
     </html>
   );
