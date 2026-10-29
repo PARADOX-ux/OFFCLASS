@@ -503,7 +503,7 @@ export default function MoneyPage() {
       </section>
 
       {/* First ₹1,000 Roadmap */}
-      <section className="section bg-[var(--color-ink)] text-[var(--color-offwhite)] relative overflow-hidden">
+      <section className="section section-dark relative overflow-hidden border-y border-black/10 dark:border-white/5">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[var(--color-money)] opacity-[0.04] blur-[120px]" />
 
         <div className="container mx-auto max-w-[1320px] px-6 relative z-10">

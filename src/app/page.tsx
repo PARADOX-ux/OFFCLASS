@@ -135,7 +135,7 @@ export default function HomePage() {
       {/* ============================================================
           SECTION 2: THE REALITY (High-Contrast Bento Comparison Matrix)
           ============================================================ */}
-      <section className="section bg-[var(--color-ink)] text-[var(--color-offwhite)] relative overflow-hidden">
+      <section className="section section-dark relative overflow-hidden border-y border-black/10 dark:border-white/5">
         <div className="container mx-auto max-w-[1320px] px-6 relative z-10">
           <RevealSection>
             <div className="max-w-[620px] mb-12">
@@ -439,7 +439,7 @@ export default function HomePage() {
       {/* ============================================================
           SECTION 6: FINAL CTA
           ============================================================ */}
-      <section className="section bg-[var(--color-ink)] text-[var(--color-offwhite)] relative overflow-hidden">
+      <section className="section section-dark relative overflow-hidden border-t border-black/10 dark:border-white/5">
         <div className="container mx-auto max-w-[1320px] px-6 text-center relative z-10">
           <RevealSection>
             <span className="tech-tag text-[var(--color-money)] border-[var(--color-money)]/20 mb-4 inline-flex">

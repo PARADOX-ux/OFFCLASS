@@ -14,15 +14,16 @@ test('Theme System & Dark Mode Integrity Tests', async (t) => {
     );
   });
 
-  await t.test('globals.css has a unified .dark definition with OLED tokens', () => {
+  await t.test('globals.css has a unified .dark definition with OLED tokens and persistent dark section classes', () => {
     const cssPath = path.resolve(process.cwd(), 'src/app/globals.css');
     const css = fs.readFileSync(cssPath, 'utf8');
 
-    // Must have .dark definition
     assert.ok(css.includes('.dark {'), 'Must have .dark selector');
     assert.ok(css.includes('--color-offwhite: #0a0c10;'), 'Must have OLED offwhite background');
     assert.ok(css.includes('--color-surface: #12151c;'), 'Must have dark surface token');
     assert.ok(css.includes('--color-ink: #F7F6F2;'), 'Must have light ink text token');
+    assert.ok(css.includes('.section-dark,'), 'Must define persistent dark section class');
+    assert.ok(css.includes('.footer-dark'), 'Must define persistent footer dark class');
   });
 
   await t.test('layout.tsx contains inline anti-FOUC theme script and suppressHydrationWarning', () => {
@@ -60,5 +61,16 @@ test('Theme System & Dark Mode Integrity Tests', async (t) => {
     const blogPath = path.resolve(process.cwd(), 'src/app/blog/page.tsx');
     const blog = fs.readFileSync(blogPath, 'utf8');
     assert.ok(!blog.includes('card-flat bg-white border'), 'Blog cards must adapt to dark mode');
+  });
+
+  await t.test('Footer and dark sections do not invert to white in dark mode', () => {
+    const footerPath = path.resolve(process.cwd(), 'src/components/Footer.tsx');
+    const footer = fs.readFileSync(footerPath, 'utf8');
+    assert.ok(!footer.includes('bg-[var(--color-ink)]'), 'Footer must not use bg-[var(--color-ink)]');
+    assert.ok(footer.includes('footer-dark'), 'Footer must use footer-dark');
+
+    const pagePath = path.resolve(process.cwd(), 'src/app/page.tsx');
+    const page = fs.readFileSync(pagePath, 'utf8');
+    assert.ok(!page.includes('<section className="section bg-[var(--color-ink)]'), 'Homepage sections must not use bg-[var(--color-ink)]');
   });
 });

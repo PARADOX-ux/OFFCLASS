@@ -68,7 +68,7 @@ export default function AboutPage() {
       </section>
 
       {/* The Mission */}
-      <section className="py-20 bg-[var(--color-ink)] text-[var(--color-offwhite)]">
+      <section className="py-20 section-dark border-y border-black/10 dark:border-white/5">
         <div className="container mx-auto max-w-[1320px] px-6 text-center">
           <h2 className="text-display-md mb-6 max-w-[600px] mx-auto">
             Our mission is simple.

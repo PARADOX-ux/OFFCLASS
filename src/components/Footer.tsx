@@ -30,7 +30,7 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--color-ink)] text-[var(--color-offwhite)]" role="contentinfo">
+    <footer className="footer-dark border-t border-black/10 dark:border-white/5" role="contentinfo">
       <div className="container mx-auto max-w-[1320px] px-6">
         {/* Main Footer */}
         <div className="py-16 md:py-20">

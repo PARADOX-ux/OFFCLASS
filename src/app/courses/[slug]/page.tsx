@@ -124,7 +124,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
             </div>
 
             {/* Video Player Placeholder */}
-            <div className="w-full aspect-video bg-[var(--color-ink)] rounded-2xl flex flex-col items-center justify-center text-[var(--color-offwhite)] relative overflow-hidden group cursor-pointer shadow-[var(--shadow-md)]">
+            <div className="w-full aspect-video bg-neutral-950 rounded-2xl flex flex-col items-center justify-center text-white relative overflow-hidden group cursor-pointer shadow-[var(--shadow-md)] border border-white/5">
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
               <PlayCircle size={64} className="text-[var(--color-money)] relative z-20 group-hover:scale-110 transition-transform duration-300" />
               <p className="mt-4 font-bold tracking-widest text-[0.85rem] relative z-20">PLAY CHAPTER 2</p>
@@ -160,7 +160,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                 <button
                   onClick={handleBuyCourse}
                   disabled={isProcessing}
-                  className="w-full py-3 px-6 rounded-xl font-bold text-[0.9rem] bg-[var(--color-ink)] text-white hover:bg-[#333] transition-colors flex items-center justify-center gap-2 disabled:opacity-80 disabled:cursor-not-allowed mb-3"
+                  className="w-full py-3 px-6 rounded-xl font-bold text-[0.9rem] btn-primary flex items-center justify-center gap-2 disabled:opacity-80 disabled:cursor-not-allowed mb-3"
                 >
                   {paymentStatus === 'processing' ? (
                     <><Loader2 size={16} className="animate-spin" /> Processing...</>

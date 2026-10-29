@@ -90,9 +90,10 @@ export default function PricingPage() {
               <span className={`text-[0.9rem] font-bold ${!isAnnual ? 'text-[var(--color-ink)]' : 'text-[var(--color-muted)]'}`}>Monthly</span>
               <button 
                 onClick={() => setIsAnnual(!isAnnual)}
-                className="w-14 h-8 rounded-full bg-[var(--color-ink)] p-1 relative transition-colors duration-300"
+                className="w-14 h-8 rounded-full bg-neutral-900 dark:bg-neutral-800 border border-neutral-700 p-1 relative transition-colors duration-300 cursor-pointer"
+                aria-label="Toggle annual billing"
               >
-                <div className={`w-6 h-6 bg-white rounded-full absolute top-1 transition-transform duration-300 ${isAnnual ? 'translate-x-6' : 'translate-x-0'}`} />
+                <div className={`w-6 h-6 bg-white dark:bg-[var(--color-money)] rounded-full absolute top-1 transition-transform duration-300 ${isAnnual ? 'translate-x-6' : 'translate-x-0'}`} />
               </button>
               <span className={`text-[0.9rem] font-bold flex items-center gap-2 ${isAnnual ? 'text-[var(--color-ink)]' : 'text-[var(--color-muted)]'}`}>
                 Annually
@@ -137,7 +138,7 @@ export default function PricingPage() {
 
           {/* Plus Tier */}
           <RevealSection delay={0.2}>
-            <div className="bg-[var(--color-ink)] text-white border border-gray-800 rounded-3xl p-6 flex flex-col h-full relative overflow-hidden transform md:-translate-y-2 shadow-xl">
+            <div className="bg-neutral-950 text-white border border-blue-500/40 rounded-3xl p-6 flex flex-col h-full relative overflow-hidden transform md:-translate-y-2 shadow-2xl dark:shadow-[0_0_50px_-10px_rgba(49,87,213,0.3)]">
               <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[var(--color-money)] opacity-[0.1] blur-[60px] rounded-full pointer-events-none" />
               <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[var(--color-money)] text-[var(--color-ink)] text-[0.6rem] font-bold uppercase tracking-widest py-1 px-4 rounded-b-lg">
                 Most Popular

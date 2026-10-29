@@ -18,13 +18,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // 1. Determine active theme on client mount
-    const saved = localStorage.getItem('offclass-theme') as Theme | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // 1. Determine active theme on client mount - match pre-paint script
+    const isCurrentlyDark =
+      typeof document !== 'undefined' &&
+      document.documentElement.classList.contains('dark');
+    const saved =
+      typeof localStorage !== 'undefined'
+        ? (localStorage.getItem('offclass-theme') as Theme | null)
+        : null;
     const initialTheme: Theme =
       saved === 'dark' || saved === 'light'
         ? saved
-        : prefersDark
+        : isCurrentlyDark
         ? 'dark'
         : 'light';
 

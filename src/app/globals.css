@@ -122,6 +122,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 ::selection {
@@ -759,6 +761,20 @@ textarea.input {
 .dark body {
   background-color: var(--color-offwhite);
   color: var(--color-ink);
+}
+
+/* Contrast Sections that stay dark in both light & dark mode */
+.section-dark,
+.footer-dark {
+  background-color: #111111;
+  color: #F7F6F2;
+}
+
+.dark .section-dark,
+.dark .footer-dark {
+  background-color: #07090d;
+  color: #F7F6F2;
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .dark ::selection {

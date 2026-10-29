@@ -97,7 +97,7 @@ export default function LifePage() {
       </section>
 
       {/* Key Principle */}
-      <section className="section bg-[var(--color-ink)] text-[var(--color-offwhite)]">
+      <section className="section section-dark border-y border-black/10 dark:border-white/5">
         <div className="container mx-auto max-w-[1320px] px-6 text-center">
           <RevealSection>
             <h2 className="text-display-md mb-6 max-w-[500px] mx-auto">

@@ -218,7 +218,7 @@ export default function SkillsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-[var(--color-ink)] text-[var(--color-offwhite)]">
+      <section className="py-20 section-dark border-y border-black/10 dark:border-white/5">
         <div className="container mx-auto max-w-[1320px] px-6 text-center">
           <RevealSection>
             <h2 className="text-display-sm mb-4">

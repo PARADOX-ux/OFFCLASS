@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <p className="mb-6 text-[var(--color-ink)] leading-relaxed">
             Find the startup founder or hiring manager on LinkedIn or Twitter. Send them a short, 3-sentence email. Don&apos;t ask for a job. Show them what you built.
           </p>
-          <pre className="bg-[var(--color-ink)] text-white p-6 rounded-xl overflow-x-auto text-sm mb-8">
+          <pre className="bg-neutral-950 text-neutral-100 border border-neutral-800 p-6 rounded-xl overflow-x-auto text-sm mb-8">
             Hi [Name],{'\n\n'}
             I&apos;m a student learning React. I love [Company Name], so I spent this weekend building [Tool Name] using your API.{'\n\n'}
             Here is the link: [Link].{'\n\n'}
