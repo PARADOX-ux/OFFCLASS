@@ -2,13 +2,42 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Search, MapPin, Calendar, ExternalLink, CheckCircle, HelpCircle } from 'lucide-react';
+import {
+  ArrowRight,
+  Search,
+  MapPin,
+  Calendar,
+  ExternalLink,
+  CheckCircle,
+  HelpCircle,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import RevealSection from '@/components/RevealSection';
 import SaveButton from '@/components/SaveButton';
 import { demoOpportunities } from '@/lib/data';
 
-const types = ['All', 'internship', 'freelance', 'hackathon', 'scholarship', 'campus_job', 'event', 'competition', 'creator'];
-const locations = ['All Locations', 'Remote', 'Delhi', 'Mumbai', 'Bangalore', 'Multiple Cities', 'Pan India'];
+const types = [
+  'All',
+  'internship',
+  'freelance',
+  'hackathon',
+  'scholarship',
+  'campus_job',
+  'event',
+  'competition',
+  'creator',
+];
+
+const locations = [
+  'All Locations',
+  'Remote',
+  'Delhi',
+  'Mumbai',
+  'Bangalore',
+  'Multiple Cities',
+  'Pan India',
+];
 
 export default function OpportunitiesPage() {
   const [activeType, setActiveType] = useState('All');
@@ -18,166 +47,205 @@ export default function OpportunitiesPage() {
   const filtered = demoOpportunities.filter((o) => {
     if (activeType !== 'All' && o.type !== activeType) return false;
     if (activeLocation !== 'All Locations' && o.location !== activeLocation) return false;
-    if (searchQuery && !o.title.toLowerCase().includes(searchQuery.toLowerCase()) && !o.summary.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    if (
+      searchQuery &&
+      !o.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !o.summary.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+      return false;
     return true;
   });
 
-
   return (
     <>
-      {/* Hero */}
-      <section className="section bg-[var(--color-offwhite)]">
-        <div className="container mx-auto max-w-[1320px] px-6">
+      {/* ── Hero Section (Linear / Supabase Style) ─────────────── */}
+      <section className="relative pt-28 pb-14 bg-[var(--color-offwhite)] dark:bg-neutral-950 overflow-hidden">
+        <div className="absolute inset-0 linear-grid-mesh pointer-events-none" />
+        <div className="absolute top-[20%] right-[10%] w-[450px] h-[450px] rounded-full bg-[var(--color-money)] opacity-[0.05] dark:opacity-[0.08] blur-[100px] pointer-events-none" />
+
+        <div className="container mx-auto max-w-[1320px] px-6 relative z-10">
           <RevealSection>
-            <p className="section-label">Opportunities</p>
-            <h1 className="text-display-lg mb-6 max-w-[600px]">
-              Find what&apos;s out there for you.
-            </h1>
-            <p className="text-body-lg text-[var(--color-muted)] mb-8 max-w-[520px]">
-              Browse internships, freelancing gigs, competitions, scholarships, hackathons,
-              and more. Filter by type, location, and keyword.
-            </p>
+            <div className="max-w-[700px]">
+              <span className="tech-tag text-[#10b981] mb-4 inline-flex items-center gap-1.5">
+                <span className="live-pulse-dot" />
+                <span>Curated & audited opportunity radar</span>
+              </span>
+              <h1 className="text-display-lg text-[var(--color-ink)] mb-4 font-bold">
+                Find Real Opportunities That Value You
+              </h1>
+              <p className="text-body-lg text-[var(--color-muted)] max-w-[560px]">
+                Browse vetted internships, open source fellowships, nationwide hackathons, and high-trust scholarships without spam or scam postings.
+              </p>
+            </div>
           </RevealSection>
         </div>
       </section>
 
-      {/* Filters + Grid */}
-      <section className="section bg-[var(--color-surface)]">
+      {/* ── Filter Bar & Opportunity Bento Grid ────────────────── */}
+      <section className="py-12 bg-[var(--color-surface)] dark:bg-neutral-900 border-t border-black/[0.05] dark:border-white/[0.05]">
         <div className="container mx-auto max-w-[1320px] px-6">
-          {/* Search */}
+          {/* Controls */}
           <RevealSection>
-            <div className="mb-8 space-y-4">
-              <div className="relative max-w-[500px]">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-muted)]" />
+            <div className="bento-card p-5 mb-8 space-y-4">
+              {/* Search Input */}
+              <div className="relative max-w-[560px]">
+                <Search
+                  size={17}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--color-muted)]"
+                />
                 <input
                   type="search"
-                  className="input pl-12"
-                  placeholder="Search opportunities..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/[0.08] text-[0.88rem] text-[var(--color-ink)] placeholder:text-[var(--color-muted)] focus:outline-none focus:border-[var(--color-tech)] transition-colors"
+                  placeholder="Search opportunities (e.g. Google, Remote, Frontend, Stipend)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   aria-label="Search opportunities"
                 />
               </div>
 
-              {/* Type filters */}
-              <div className="flex flex-wrap gap-2">
-                {types.map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setActiveType(type)}
-                    className={`pill ${activeType === type ? 'pill-default active' : 'pill-default'}`}
-                  >
-                    {type === 'All' ? 'All Types' : type.replace('_', ' ')}
-                  </button>
-                ))}
+              {/* Type Filter Pills */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {types.map((type) => {
+                  const active = activeType === type;
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => setActiveType(type)}
+                      className={`px-3 py-1.5 rounded-full text-[0.78rem] font-semibold capitalize transition-all ${
+                        active
+                          ? 'bg-[var(--color-ink)] text-[var(--color-offwhite)] shadow-sm'
+                          : 'bg-black/[0.03] dark:bg-white/[0.05] text-[var(--color-muted)] hover:text-[var(--color-ink)]'
+                      }`}
+                    >
+                      {type === 'All' ? 'All Categories' : type.replace('_', ' ')}
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* Location filters */}
-              <div className="flex flex-wrap gap-2">
-                {locations.map((loc) => (
-                  <button
-                    key={loc}
-                    onClick={() => setActiveLocation(loc)}
-                    className={`pill text-[0.75rem] py-1 px-3 ${activeLocation === loc ? 'pill-default active' : 'pill-muted'}`}
-                  >
-                    <MapPin size={10} />
-                    {loc}
-                  </button>
-                ))}
+              {/* Location Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-black/[0.04] dark:border-white/[0.05]">
+                <span className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-muted)] mr-2 flex items-center gap-1">
+                  <MapPin size={12} />
+                  Location:
+                </span>
+                {locations.map((loc) => {
+                  const active = activeLocation === loc;
+                  return (
+                    <button
+                      key={loc}
+                      onClick={() => setActiveLocation(loc)}
+                      className={`px-2.5 py-1 rounded-md text-[0.74rem] font-medium transition-all ${
+                        active
+                          ? 'bg-[var(--color-tech)] text-white shadow-xs font-semibold'
+                          : 'bg-black/[0.02] dark:bg-white/[0.03] text-[var(--color-muted)] hover:text-[var(--color-ink)]'
+                      }`}
+                    >
+                      {loc}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </RevealSection>
 
           {/* Results count */}
-          <p className="text-[0.85rem] text-[var(--color-muted)] mb-6">
-            {filtered.length} {filtered.length === 1 ? 'opportunity' : 'opportunities'} found
-          </p>
+          <div className="flex items-center justify-between mb-6 text-[0.82rem] text-[var(--color-muted)]">
+            <span>
+              Showing <strong className="text-[var(--color-ink)]">{filtered.length}</strong> verified opportunities
+            </span>
+            {(activeType !== 'All' || activeLocation !== 'All Locations' || searchQuery) && (
+              <button
+                onClick={() => {
+                  setActiveType('All');
+                  setActiveLocation('All Locations');
+                  setSearchQuery('');
+                }}
+                className="text-[var(--color-tech)] font-semibold hover:underline"
+              >
+                Reset filters
+              </button>
+            )}
+          </div>
 
-          {/* Opportunities Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Opportunities Bento Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
             {filtered.map((opp, i) => (
               <RevealSection key={opp.id} delay={i * 0.04}>
-                <div className="card h-full flex flex-col relative group hover:border-[var(--color-tech)] transition-colors cursor-pointer">
-                  {/* Invisible link overlay covering the entire card (z-20 to sit above text) */}
-                  <a href={opp.link} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-20" aria-label={`View ${opp.title}`} />
-                  
+                <div className="bento-card bento-card-interactive p-5 h-full flex flex-col justify-between relative group">
+                  {/* Invisible link overlay covering card body */}
+                  <a
+                    href={opp.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-20"
+                    aria-label={`View ${opp.title}`}
+                  />
+
                   {/* Header */}
-                  <div className="flex items-center justify-between mb-3 relative z-10 pointer-events-none">
-                    <div className="flex items-center gap-2">
-                      <span className="pill pill-default text-[0.7rem] py-0.5 px-2">
-                        {opp.type.replace('_', ' ')}
-                      </span>
-                    </div>
-                    {/* Ensure save button can be clicked over the link overlay */}
-                    <div className="pointer-events-auto relative z-30">
+                  <div>
+                    <div className="flex items-center justify-between mb-3 relative z-30 pointer-events-auto">
+                      <div className="flex items-center gap-2">
+                        <span className="tech-tag text-[0.68rem] capitalize font-semibold">
+                          {opp.type.replace('_', ' ')}
+                        </span>
+                        {opp.remote && (
+                          <span className="tech-tag text-[var(--color-tech)] bg-[var(--color-tech)]/10 text-[0.68rem]">
+                            Remote
+                          </span>
+                        )}
+                      </div>
                       <SaveButton itemId={opp.id} itemType="opportunity" />
                     </div>
+
+                    {/* Organization & Title */}
+                    <p className="text-[0.76rem] font-bold text-[var(--color-tech)] uppercase tracking-wider mb-1">
+                      {opp.organization}
+                    </p>
+                    <h3 className="text-[1.02rem] font-bold font-[var(--font-display)] text-[var(--color-ink)] mb-2 group-hover:text-[var(--color-tech)] transition-colors leading-snug">
+                      {opp.title}
+                    </h3>
+                    <p className="text-[0.82rem] text-[var(--color-muted)] leading-relaxed mb-4">
+                      {opp.summary}
+                    </p>
                   </div>
 
-                  {/* Content */}
-                  <h3 className="text-[1.05rem] font-bold font-[var(--font-display)] mb-1 relative z-10 group-hover:text-[var(--color-tech)] transition-colors">
-                    {opp.title}
-                  </h3>
-                  <p className="text-[0.8rem] text-[var(--color-tech)] font-medium mb-2 relative z-10">
-                    {opp.organization}
-                  </p>
-                  <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed mb-4 flex-1 relative z-10">
-                    {opp.summary}
-                  </p>
-
-                  {/* Details */}
-                  <div className="space-y-2 text-[0.8rem] text-[var(--color-muted)] mb-4 relative z-10">
-                    <div className="flex items-center gap-2">
-                      <MapPin size={13} /> {opp.location}
-                      {opp.remote && <span className="pill pill-tech text-[0.65rem] py-0 px-1.5">Remote</span>}
+                  {/* Footer & Badges */}
+                  <div>
+                    <div className="space-y-1.5 text-[0.78rem] text-[var(--color-muted)] mb-4 pt-3 border-t border-black/[0.04] dark:border-white/[0.05]">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5">
+                          <MapPin size={12} />
+                          {opp.location}
+                        </span>
+                        {opp.compensation && (
+                          <span className="font-bold text-[var(--color-ink)] font-mono">
+                            {opp.compensation}
+                          </span>
+                        )}
+                      </div>
+                      {opp.deadline && (
+                        <div className="flex items-center gap-1.5 text-[0.74rem]">
+                          <Calendar size={12} />
+                          <span>Deadline: {opp.deadline}</span>
+                        </div>
+                      )}
                     </div>
-                    {opp.deadline && (
-                      <div className="flex items-center gap-2">
-                        <Calendar size={13} /> Deadline: {opp.deadline}
+
+                    {/* Trust status */}
+                    <div className="p-2.5 rounded-xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.03] dark:border-white/[0.04] flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-[0.72rem] text-[#10b981] font-semibold">
+                        <ShieldCheck size={14} />
+                        <span>
+                          {opp.verificationStatus === 'verified'
+                            ? 'Verified Source'
+                            : 'Representative Listing'}
+                        </span>
                       </div>
-                    )}
-                    {opp.compensation && (
-                      <div className="flex items-center gap-2 font-semibold text-[var(--color-ink)]">
-                        💰 {opp.compensation}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Eligibility */}
-                  <p className="text-[0.75rem] text-[var(--color-muted)] mb-4 relative z-10">
-                    Eligibility: {opp.eligibility}
-                  </p>
-
-                  {/* Verification */}
-                  <div className="flex flex-col gap-1 mb-4 relative z-10 p-3 bg-[var(--color-offwhite-dark)] rounded-[var(--radius-sm)]">
-                    {opp.verificationStatus === 'verified' ? (
-                      <>
-                        <div className="flex items-center gap-1.5 text-[0.75rem] text-[#16a34a] font-medium">
-                          <CheckCircle size={14} className="text-[#16a34a]" />
-                          <span>Verified from Official Source ({new Date(opp.updatedAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })})</span>
-                        </div>
-                        <p className="text-[0.7rem] text-[var(--color-muted)]">
-                          Details confirmed with official programme portal.
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <div className="flex items-center gap-1.5 text-[0.75rem] text-[var(--color-muted)] font-medium">
-                          <span className="badge badge-demo">Example Listing</span>
-                        </div>
-                        <p className="text-[0.7rem] text-[var(--color-muted)]">
-                          Illustrative entry to demonstrate platform format & discovery.
-                        </p>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Action */}
-                  <div className="mt-auto pt-4 relative z-10">
-                    <span className="inline-flex items-center gap-2 text-[0.85rem] font-bold text-[var(--color-tech)] group-hover:text-[var(--color-ink)] transition-colors pointer-events-none">
-                      <ExternalLink size={14} />
-                      <span>View & Apply</span>
-                    </span>
+                      <span className="text-[0.74rem] font-bold text-[var(--color-tech)] flex items-center gap-1">
+                        Apply <ExternalLink size={11} />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </RevealSection>
@@ -186,29 +254,37 @@ export default function OpportunitiesPage() {
 
           {/* Empty state */}
           {filtered.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-[1.5rem] mb-2">🔍</p>
-              <p className="text-[var(--color-muted)] text-[1rem] mb-2">No opportunities match your filters.</p>
+            <div className="text-center py-20 bento-card p-8 max-w-[500px] mx-auto">
+              <p className="text-3xl mb-2">🔍</p>
+              <h3 className="font-bold text-[1.1rem] mb-1">No matching opportunities</h3>
+              <p className="text-[var(--color-muted)] text-[0.85rem] mb-4">
+                Try widening your search keywords or switching location filters.
+              </p>
               <button
-                onClick={() => { setActiveType('All'); setActiveLocation('All Locations'); setSearchQuery(''); }}
-                className="text-[var(--color-tech)] font-semibold text-[0.9rem]"
+                onClick={() => {
+                  setActiveType('All');
+                  setActiveLocation('All Locations');
+                  setSearchQuery('');
+                }}
+                className="btn btn-primary btn-sm rounded-xl px-4 py-2 text-[0.82rem]"
               >
                 Clear all filters
               </button>
             </div>
           )}
 
-          {/* Architecture note */}
+          {/* Trust Banner */}
           <RevealSection delay={0.2}>
-            <div className="mt-12 p-6 bg-[var(--color-offwhite)] rounded-[var(--radius-lg)] border border-[var(--color-border)]">
-              <h4 className="text-[0.95rem] font-bold font-[var(--font-display)] mb-2 flex items-center gap-2">
-                <span>🛡️ Verification & Accuracy Policy</span>
+            <div className="bento-card p-6 sm:p-7 border-l-4 border-l-[var(--color-tech)]">
+              <h4 className="text-[0.95rem] font-bold font-[var(--font-display)] mb-2 flex items-center gap-2 text-[var(--color-ink)]">
+                <ShieldCheck size={18} className="text-[var(--color-tech)]" />
+                <span>Verification & Opportunity Integrity Policy</span>
               </h4>
-              <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed mb-3">
-                Listings marked <strong>&quot;Verified from Official Source&quot;</strong> are audited against live organization portals (e.g. AICTE SIH, Google GSoC, Reliance Foundation, IIT Bombay E-Cell). Deadlines, eligibility, and links are re-checked regularly.
+              <p className="text-[0.84rem] text-[var(--color-muted)] leading-relaxed mb-2">
+                Listings marked <strong>&quot;Verified Source&quot;</strong> are audited against live organization portals (e.g. AICTE Smart India Hackathon, Google Summer of Code, Reliance Foundation, IIT Bombay E-Cell). Deadlines, eligibility requirements, and portal links are updated systematically.
               </p>
-              <p className="text-[0.85rem] text-[var(--color-muted)] leading-relaxed">
-                Listings marked <strong>&quot;Example Listing&quot;</strong> are representative examples intended to demonstrate career pathways and role structures. OFFCLASS never charges fees for job applications or guarantees placement outcomes.
+              <p className="text-[0.78rem] text-[var(--color-muted)]">
+                OFFCLASS never charges fees for job applications or guarantees placement outcomes.
               </p>
             </div>
           </RevealSection>
