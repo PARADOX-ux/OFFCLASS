@@ -107,7 +107,7 @@ export default function PricingPage() {
           
           {/* Free Tier */}
           <RevealSection delay={0.1}>
-            <div className="bg-white border border-[var(--color-border)] rounded-3xl p-6 flex flex-col h-full hover:shadow-sm transition-shadow">
+            <div className="bento-card p-6 flex flex-col h-full hover:shadow-md transition-all">
               <div className="mb-6">
                 <h3 className="text-xl font-bold font-[var(--font-display)] mb-1">Basic</h3>
                 <p className="text-[var(--color-muted)] text-[0.75rem]">Everything you need to get started.</p>
@@ -191,7 +191,7 @@ export default function PricingPage() {
 
           {/* Pro Tier */}
           <RevealSection delay={0.3}>
-            <div className="bg-white border border-[var(--color-border)] rounded-3xl p-6 flex flex-col h-full hover:shadow-sm transition-shadow">
+            <div className="bento-card p-6 flex flex-col h-full hover:shadow-md transition-all">
               <div className="mb-6">
                 <h3 className="text-xl font-bold font-[var(--font-display)] mb-1 text-[var(--color-tech)]">OFFCLASS Pro</h3>
                 <p className="text-[var(--color-muted)] text-[0.75rem]">1-on-1 mentorship and ultimate access.</p>

@@ -53,7 +53,7 @@ export default function BlogPage() {
         {/* Featured Post */}
         <div className="mb-16">
           <Link href={`/blog/${posts[0].id}`} className="block group">
-            <div className="card-flat bg-white border border-[var(--color-border)] rounded-[var(--radius-lg)] p-8 md:p-12 hover:border-[var(--color-tech)] transition-colors overflow-hidden relative">
+            <div className="bento-card bento-card-interactive p-8 md:p-12 overflow-hidden relative">
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--color-tech)] opacity-[0.05] blur-[100px] rounded-full pointer-events-none" />
               
               <div className="relative z-10">

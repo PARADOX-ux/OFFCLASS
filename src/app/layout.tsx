@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/react";
 import RazorpayScript from "@/components/RazorpayScript";
 
@@ -71,16 +72,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${spaceGrotesk.variable} ${inter.variable}`}
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('offclass-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&d)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <AuthProvider>
-          <a href="#main-content" className="skip-link">Skip to main content</a>
-          <Navigation />
-          <main id="main-content" className="flex-1 pt-[72px]">{children}</main>
-          <Footer />
-        </AuthProvider>
-        <Analytics />
-        <RazorpayScript />
+        <ThemeProvider>
+          <AuthProvider>
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
+            <Navigation />
+            <main id="main-content" className="flex-1 pt-[72px]">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
+          <Analytics />
+          <RazorpayScript />
+        </ThemeProvider>
       </body>
     </html>
   );

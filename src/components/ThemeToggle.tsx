@@ -1,41 +1,31 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { useTheme } from '@/components/ThemeProvider';
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const { theme, toggleTheme, mounted } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem('offclass-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = saved === 'dark' || (!saved && prefersDark);
-    setDark(isDark);
-    document.documentElement.classList.toggle('dark', isDark);
-  }, []);
+  if (!mounted) {
+    return (
+      <div className="w-8 h-8 rounded-full border border-black/5 dark:border-white/10 opacity-40" />
+    );
+  }
 
-  const toggle = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('offclass-theme', next ? 'dark' : 'light');
-  };
-
-  if (!mounted) return <div className="w-9 h-9" />;
+  const isDark = theme === 'dark';
 
   return (
     <button
-      onClick={toggle}
-      className="w-9 h-9 flex items-center justify-center rounded-[var(--radius-sm)] border border-[var(--color-border)] hover:border-[var(--color-muted)] transition-all"
-      aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={dark ? 'Light mode' : 'Dark mode'}
+      type="button"
+      onClick={toggleTheme}
+      className="w-8 h-8 flex items-center justify-center rounded-full bg-black/[0.03] dark:bg-white/[0.06] hover:bg-black/[0.07] dark:hover:bg-white/[0.12] border border-black/[0.04] dark:border-white/[0.08] transition-all text-[var(--color-ink)] cursor-pointer"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {dark ? (
-        <Sun size={16} className="text-[var(--color-money)]" />
+      {isDark ? (
+        <Sun size={15} className="text-[var(--color-money)] transition-transform hover:rotate-45" />
       ) : (
-        <Moon size={16} className="text-[var(--color-ink)]" />
+        <Moon size={15} className="text-[var(--color-ink)] transition-transform hover:-rotate-12" />
       )}
     </button>
   );
