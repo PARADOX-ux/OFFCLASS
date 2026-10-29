@@ -8,7 +8,9 @@ import Razorpay from 'razorpay';
 export const isRazorpayConfigured = Boolean(
   process.env.RAZORPAY_KEY_ID &&
   process.env.RAZORPAY_KEY_SECRET &&
-  !process.env.RAZORPAY_KEY_ID.includes('placeholder')
+  !process.env.RAZORPAY_KEY_ID.includes('placeholder') &&
+  !process.env.RAZORPAY_KEY_ID.includes('XXXX') &&
+  !process.env.RAZORPAY_KEY_ID.includes('your_key')
 );
 
 const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_placeholder';
