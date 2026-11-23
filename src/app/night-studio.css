@@ -1,6 +1,5 @@
 /* ============================================================
    NIGHT STUDIO — cinematic stage (homepage)
-   Tokens: bg #0B0F14 · fg #E6EDF3 · accent #4C8DFF · heading #F5F9FF · radius 14
    ============================================================ */
 
 .stage {
@@ -23,7 +22,7 @@
   background-size: 64px 64px;
   background-position: center bottom;
   mask-image: radial-gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
-  -webkit-mask-image: radial_gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
 }
 
 .stage-scene {
