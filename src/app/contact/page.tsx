@@ -1,4 +1,4 @@
-'use client';
+use client';
 
 import { useState } from 'react';
 import type { Metadata } from 'next';
@@ -21,7 +21,7 @@ export default function ContactPage() {
     e.preventDefault();
     setLoading(true);
     setErrorMsg(null);
-    
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -39,7 +39,7 @@ export default function ContactPage() {
 
       setSubmitted(true);
     } catch (error: any) {
-      setErrorMsg(error?.message || 'Could not send message. Please email hello@offclass.in directly.');
+      setErrorMsg(error?.message || 'Could not send message. Please email hello@offclass-app.com directly.');
     } finally {
       setLoading(false);
     }
