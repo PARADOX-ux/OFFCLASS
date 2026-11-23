@@ -6,3 +6,51 @@
   background-position: center bottom;
   mask-image: radial-gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
 }
+
+.stage-scene {
+  perspective: 1100px;
+}
+
+.stage-cube {
+  transform-style: preserve-3d;
+  transform: rotateX(62deg) rotateZ(0deg);
+  will-change: transform;
+}
+
+.stage-plane {
+  position: absolute;
+  inset: 12%;
+  border-radius: var(--stage-radius);
+  border: 1px solid rgba(76, 141, 255, 0.35);
+  background: linear-gradient(135deg, rgba(76, 141, 255, 0.12), rgba(11, 15, 20, 0.65));
+  box-shadow: 0 0 40px rgba(76, 141, 255, 0.12);
+  animation: stage-plane-float 5s ease-in-out infinite;
+}
+
+.stage-plane-notch {
+  position: absolute;
+  top: 14%;
+  left: 14%;
+  width: 38%;
+  height: 6%;
+  border-radius: 4px;
+  background: rgba(143, 184, 255, 0.45);
+}
+
+@keyframes stage-plane-float {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.stage {
+  --stage-bg: #0B0F14;
+  --stage-fg: #E6EDF3;
+  --stage-heading: #F5F9FF;
+  --stage-accent: #4C8DFF;
+  --stage-muted: #8CA0B3;
+  --stage-faint: #5E7183;
+  --stage-border: rgba(230, 237, 243, 0.09);
+  --stage-radius: 14px;
+  background-color: var(--stage-bg);
+  color: var(--stage-fg);
+}
