@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/api/', '/dashboard/'],
     },
-    sitemap: 'https://offclass.in/sitemap.xml',
+    sitemap: 'https://offclass-six.vercel.app/sitemap.xml',
   };
 }
