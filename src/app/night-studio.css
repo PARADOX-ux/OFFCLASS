@@ -19,8 +19,8 @@
     linear-gradient(90deg, rgba(76, 141, 255, 0.08) 1px, transparent 1px);
   background-size: 64px 64px;
   background-position: center bottom;
-  mask-image: radial-gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 90% 65% at 50% 60%, black 0%, transparent 75%);
 }
 
 .stage-scene {
