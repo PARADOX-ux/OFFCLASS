@@ -5,8 +5,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ScrollFX from "@/components/ScrollFX";
 import { Analytics } from "@vercel/analytics/react";
-import RazorpayScript from "@/components/RazorpayScript";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -25,7 +25,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://offclass.in"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://offclass-six.vercel.app"),
   title: {
     default: "OFFCLASS — Build Your Life Beyond the Classroom",
     template: "%s | OFFCLASS",
@@ -84,9 +84,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased">
+      <body suppressHydrationWarning className="min-h-screen flex flex-col antialiased">
         <ThemeProvider>
           <AuthProvider>
+            <ScrollFX />
             <a href="#main-content" className="skip-link">
               Skip to main content
             </a>
@@ -96,8 +97,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </AuthProvider>
-          <Analytics />
-          <RazorpayScript />
+          {process.env.NEXT_PUBLIC_VERCEL_ENV && <Analytics />}
         </ThemeProvider>
       </body>
     </html>
