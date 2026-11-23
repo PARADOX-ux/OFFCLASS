@@ -69,7 +69,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-[1.1rem] font-bold font-[var(--font-display)] mb-3">6. Contact</h2>
             <p className="text-[0.9rem] text-[var(--color-muted)] leading-relaxed">
-              For privacy-related questions, contact us at privacy@offclass.in (placeholder).
+              For privacy-related questions, contact us at hello@offclass-app.com.
             </p>
           </section>
 
