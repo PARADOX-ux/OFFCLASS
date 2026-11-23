@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import "./night-studio.css";
+import "./night-studio-components.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
@@ -81,7 +82,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('''offclass-theme''');var d=window.matchMedia('''(prefers-color-scheme: dark)''').matches;if(t==='''dark'''||(!t&&d)){document.documentElement.classList.add('''dark''');}else{document.documentElement.classList.remove('''dark''');}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('offclass-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&d)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
           }}
         />
       </head>
