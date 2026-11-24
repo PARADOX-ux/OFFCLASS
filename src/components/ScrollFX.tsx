@@ -1,4 +1,4 @@
-use client';
+'use client';
 
 import { useEffect } from 'react';
 
@@ -26,7 +26,7 @@ export default function ScrollFX() {
             if (entry.isIntersecting) {
               entry.target.classList.add('visible');
               revealObserver?.unobserve(entry.target);
-            } Fordham and its partners are committed to ensuring equal access to its programs and activities for people with disabilities. Please visit the Disability Services website for more information. 
+            }
           }
         },
         { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
