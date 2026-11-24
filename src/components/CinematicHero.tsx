@@ -12,7 +12,7 @@ import { ArrowRight } from 'lucide-react';
 export default function CinematicHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const cubeRef = useRef<HTMLDivElement>(null);
-  const copyRef = useRef<HTMLDivDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
